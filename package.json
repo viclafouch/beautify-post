@@ -1,0 +1,32 @@
+{
+  "name": "linkedin-formatter",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm run dev:chrome",
+    "dev:chrome": "npx cross-env TARGET=chrome webpack --mode=development",
+    "dev:firefox": "npx cross-env TARGET=firefox webpack --mode=development",
+    "build": "concurrently -n w: npm:build:*",
+    "build:chrome": "npx cross-env TARGET=chrome webpack --mode=production",
+    "build:firefox": "npx cross-env TARGET=firefox webpack --mode=production",
+    "lint": "tsc --noEmit && eslint . --ext .ts"
+  },
+  "devDependencies": {
+    "@types/copy-webpack-plugin": "8.0.1",
+    "@types/node": "16.10.3",
+    "@types/webpack": "5.28.0",
+    "clean-webpack-plugin": "4.0.0",
+    "concurrently": "6.3.0",
+    "copy-webpack-plugin": "9.0.1",
+    "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "open": "8.3.0",
+    "prettier": "2.4.1",
+    "ts-node": "10.3.0",
+    "typescript": "4.4.3",
+    "webpack": "5.58.1",
+    "webpack-cli": "4.9.0",
+    "@typescript-eslint/eslint-plugin": "5.0.0",
+    "@typescript-eslint/parser": "5.0.0",
+    "eslint": "8.0.0"
+  }
+}

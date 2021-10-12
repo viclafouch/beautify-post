@@ -1,0 +1,11 @@
+{
+  "name": "LinkedIn Formatter",
+  "manifest_version": 3,
+  "author": "Victor de la Fouchardiere",
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["main.bundle.js"]
+    }
+  ]
+}
