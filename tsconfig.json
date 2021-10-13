@@ -10,7 +10,13 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": false,
-    "noEmit": true
+    "baseUrl": "./src",
+    "jsx": "react",
+    "paths": {
+      "@constants/*": ["constants/*"],
+      "@helpers/*": ["helpers/*"],
+      "@components/*": ["components/*"],
+    }
   },
   "include": ["src", "webpack.config.ts"]
 }

@@ -26,15 +26,33 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
   const config: webpack.Configuration = {
     watch: IS_DEV,
     devtool: false,
+    stats: 'minimal',
     entry: './src/main.ts',
     output: {
       filename: '[name].bundle.js',
       path: outputPath
     },
+    resolve: {
+      extensions: ['.ts', '.tsx', '.js'],
+      alias: {
+        '@constants': path.resolve(__dirname, 'src/constants'),
+        '@helpers': path.resolve(__dirname, 'src/helpers'),
+        '@components': path.resolve(__dirname, 'src/components')
+      }
+    },
+    module: {
+      rules: [
+        {
+          test: /\.(ts|tsx)$/,
+          exclude: /(node_modules|bower_components)/,
+          use: 'babel-loader'
+        }
+      ]
+    },
     plugins: [
       {
         apply: compiler => {
-          compiler.hooks.afterDone.tap('open', () => {
+          compiler.hooks.afterResolvers.tap('open', () => {
             if (IS_DEV) {
               open('https://www.linkedin.com')
             }
