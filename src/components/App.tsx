@@ -2,29 +2,16 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Tooltip from './Tooltip/tooltip'
 
-function matchIsClickInside(
-  container: Element,
-  elementClicked: EventTarget | null
-) {
-  return (
-    elementClicked instanceof HTMLElement && container.contains(elementClicked)
-  )
+type buildAppOnContainerArgs = {
+  onFormat: () => void
+  selection: Selection
 }
 
-function buildAppOnContainer(container: Element) {
-  ReactDOM.render(<Tooltip />, container, () => {
-    function handleDocumentClick(event: MouseEvent) {
-      const hasClickInside = matchIsClickInside(container, event.target)
-      if (!hasClickInside) {
-        ReactDOM.unmountComponentAtNode(container)
-        document.removeEventListener('click', handleDocumentClick, false)
-        container.remove()
-      }
-    }
-
-    document.addEventListener('click', handleDocumentClick, false)
-    document.body.appendChild(container)
-  })
+function buildAppOnContainer(
+  initialProps: buildAppOnContainerArgs,
+  container: Element
+) {
+  ReactDOM.render(<Tooltip {...initialProps} />, container)
 }
 
 export default buildAppOnContainer

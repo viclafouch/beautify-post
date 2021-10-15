@@ -1,8 +1,12 @@
 import styled from '@emotion/styled'
 
-const Styled = styled.button`
+type StyledProps = {
+  $isSelected: boolean
+}
+
+const Styled = styled.button<StyledProps>`
   height: 34px;
-  background-color: #ffffff;
+  background-color: ${props => (props.$isSelected ? '#eff2f5' : '#ffffff')};
   color: #000000;
   min-width: 24px;
   padding-inline: 5px;

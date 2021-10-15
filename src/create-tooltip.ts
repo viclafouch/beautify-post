@@ -1,8 +1,15 @@
 import { debounce } from '@helpers/debounce'
+import ReactDOM from 'react-dom'
 import buildAppOnContainer from '@components/App'
-import { matchIsTextEditorContainsSelection } from '@helpers/dom'
-import { matchIsSelectionTextEmpty } from '@helpers/string'
+import {
+  matchIsClickInside,
+  matchIsTextEditorContainsSelection
+} from '@helpers/dom'
 import { css } from '@emotion/css'
+import { matchIsSelectionTextEmpty } from '@helpers/boolean'
+
+let currentIdentifierSelect: string | null = null
+let previousContainer: HTMLDivElement | null = null
 
 function getTooltipClassName(domRect: DOMRect): string {
   return css`
@@ -12,6 +19,7 @@ function getTooltipClassName(domRect: DOMRect): string {
     left: ${domRect.left}px;
     padding: 0 4px;
     background-color: #ffffff;
+    user-select: none;
     border: 1px solid #eaeaea;
     border-radius: 4px;
     box-shadow: 0 13px 7px -5px rgb(26 38 49 / 9%),
@@ -19,15 +27,38 @@ function getTooltipClassName(domRect: DOMRect): string {
   `
 }
 
-function createTooltipElement(selection: Selection) {
+function clearTooltip(container: HTMLDivElement) {
+  ReactDOM.unmountComponentAtNode(container)
+  container.remove()
+  previousContainer = null
+  currentIdentifierSelect = null
+}
+
+function createTooltipOnBody(selection: Selection): HTMLDivElement {
   const range = selection.getRangeAt(0)
   const domRect = range.getBoundingClientRect()
-  const div = document.createElement('div')
-  div.textContent = 'bold'
-  div.id = 'linkedin-formatter-tooltip'
-  div.classList.add(getTooltipClassName(domRect))
-  buildAppOnContainer(div)
-  return div
+  const container = document.createElement('div')
+  container.id = 'linkedin-formatter-tooltip'
+  container.classList.add(getTooltipClassName(domRect))
+
+  function handleDocumentClick(event: MouseEvent) {
+    const hasClickInside = matchIsClickInside(container, event.target)
+    if (!hasClickInside) {
+      document.removeEventListener('click', handleDocumentClick, false)
+      clearTooltip(container)
+    }
+  }
+
+  document.addEventListener('click', handleDocumentClick, false)
+  document.body.appendChild(container)
+  buildAppOnContainer(
+    {
+      selection,
+      onFormat: () => clearTooltip(container)
+    },
+    container
+  )
+  return container
 }
 
 function handleSelectText() {
@@ -36,11 +67,20 @@ function handleSelectText() {
     return
   }
 
-  const selectedText = selection.toString()
-  console.log(selection, selectedText)
   const range = selection.getRangeAt(0)
-  if (matchIsTextEditorContainsSelection(range)) {
-    createTooltipElement(selection)
+
+  if (!matchIsTextEditorContainsSelection(range)) {
+    return
+  }
+
+  const identifierSelect = selection.toString()
+
+  if (identifierSelect !== currentIdentifierSelect) {
+    if (previousContainer) {
+      clearTooltip(previousContainer)
+    }
+    currentIdentifierSelect = selection.toString()
+    previousContainer = createTooltipOnBody(selection)
   }
 }
 

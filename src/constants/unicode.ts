@@ -1,10 +1,12 @@
 export const unicodes = {
   bold: {
-    upper: '𝐀'.codePointAt(0) as number,
-    lower: '𝐚'.codePointAt(0) as number
+    A: '𝐀'.codePointAt(0) as number,
+    a: '𝐚'.codePointAt(0) as number,
+    z: '𝐳'.codePointAt(0) as number,
+    Z: '𝐙'.codePointAt(0) as number
   },
   normal: {
-    upper: 'A'.codePointAt(0) as number,
-    lower: 'a'.codePointAt(0) as number
+    A: 'A'.codePointAt(0) as number,
+    a: 'a'.codePointAt(0) as number
   }
 }

@@ -1,11 +1,26 @@
 import React from 'react'
-import Bolder from '@components/Bolder/bolder'
+import Bold from '@components/Bold/bold'
 import Styled from './tooltip.styled'
+import Italic from '@components/Italic/italic'
+import { replaceSelectedText } from '@helpers/selection'
 
-const Tooltip = (): React.ReactElement => {
+type TooltipProps = {
+  onFormat: () => void
+  selection: Selection
+}
+
+const Tooltip = (props: TooltipProps): React.ReactElement => {
+  const { selection, onFormat } = props
+
+  const formatText = (newText: string) => {
+    replaceSelectedText(selection, newText)
+    onFormat()
+  }
+
   return (
     <Styled>
-      <Bolder />
+      <Bold selection={selection} formatText={formatText} />
+      <Italic />
     </Styled>
   )
 }
