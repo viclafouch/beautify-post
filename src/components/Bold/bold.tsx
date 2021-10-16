@@ -2,8 +2,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBold } from '@fortawesome/free-solid-svg-icons'
 import Button from '@components/Button/button'
-import { formatBold, formatNormal } from '@helpers/string'
 import { matchIsTextIsBold } from '@helpers/boolean'
+import { formatBold, formatNormal } from '@helpers/format'
 
 type BoldProps = {
   selection: Selection
@@ -14,6 +14,8 @@ const Bold = (props: BoldProps): React.ReactElement => {
   const { selection, formatText } = props
   const currentText = selection.toString()
   const isTextIsBold = matchIsTextIsBold(currentText)
+
+  console.log({ isTextIsBold })
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>

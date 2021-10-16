@@ -20,7 +20,7 @@ const Tooltip = (props: TooltipProps): React.ReactElement => {
   return (
     <Styled>
       <Bold selection={selection} formatText={formatText} />
-      <Italic />
+      <Italic selection={selection} formatText={formatText} />
     </Styled>
   )
 }
