@@ -4,7 +4,7 @@ import {
   matchIsUnicodeBold,
   matchIsUnicodeLowerBold,
   matchIsUnicodeUpperBold
-} from '@helpers/boolean'
+} from '@helpers/bold'
 import { range } from './utils'
 
 describe('Bold', () => {

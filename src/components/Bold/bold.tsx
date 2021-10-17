@@ -2,8 +2,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBold } from '@fortawesome/free-solid-svg-icons'
 import Button from '@components/Button/button'
-import { matchIsTextIsBold } from '@helpers/boolean'
-import { formatBold, formatNormal } from '@helpers/format'
+import { formatBold, matchIsTextIsBold } from '@helpers/bold'
+import { formatNormal } from '@helpers/normal'
 
 type BoldProps = {
   selection: Selection

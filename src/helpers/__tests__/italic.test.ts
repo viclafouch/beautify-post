@@ -4,7 +4,7 @@ import {
   matchIsUnicodeItalic,
   matchIsUnicodeLowerItalic,
   matchIsUnicodeUpperItalic
-} from '@helpers/boolean'
+} from '@helpers/italic'
 import { range } from './utils'
 
 describe('Italic', () => {
