@@ -4,7 +4,7 @@ import {
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
   matchIsTextUppercase
-} from './boolean'
+} from './string'
 import {
   unicodeNormalLowerToBoldText,
   unicodeNormalUpperToBoldText

@@ -1,5 +1,8 @@
 import { jest } from '@jest/globals'
-import { getContainerElement, getTextEditorElement } from '@helpers/dom'
+import {
+  getContainerElement,
+  getTextEditorElement
+} from '@helpers/linkedin-dom'
 import { Browser, Page } from 'puppeteer'
 import { initLinkedinFeedPage } from './utils'
 

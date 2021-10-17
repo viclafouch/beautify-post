@@ -13,6 +13,8 @@ export const unicodes = {
   },
   normal: {
     A: 'A'.codePointAt(0) as number,
-    a: 'a'.codePointAt(0) as number
+    a: 'a'.codePointAt(0) as number,
+    z: 'z'.codePointAt(0) as number,
+    Z: 'Z'.codePointAt(0) as number
   }
 }

@@ -1,12 +1,10 @@
 import { debounce } from '@helpers/debounce'
 import ReactDOM from 'react-dom'
 import buildAppOnContainer from '@components/App'
-import {
-  matchIsClickInside,
-  matchIsTextEditorContainsSelection
-} from '@helpers/dom'
+import { matchIsClickInside } from '@helpers/dom'
 import { css } from '@emotion/css'
-import { matchIsTextEmpty } from '@helpers/boolean'
+import { matchIsTextEmpty } from '@helpers/string'
+import { matchIsTextEditorContainsSelection } from '@helpers/linkedin-dom'
 
 let currentIdentifierSelect: string | null = null
 let previousContainer: HTMLDivElement | null = null

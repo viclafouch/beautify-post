@@ -24,10 +24,7 @@ export function cleanDocument() {
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from#sequence_generator_range
 export function range(start: number, end: number): number[] {
-  return Array.from(
-    { length: (end - start) / start + 1 },
-    (_, index) => start + index
-  )
+  return Array.from({ length: end - start + 1 }, (_, index) => start + index)
 }
 
 type Credentials = {

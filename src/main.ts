@@ -1,4 +1,4 @@
-import { matchIsPopupOpened, getContainerElement } from '@helpers/dom'
+import { getContainerElement, matchIsPopupOpened } from '@helpers/linkedin-dom'
 import { initTootlip } from './create-tooltip'
 
 function createObserver() {
