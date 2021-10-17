@@ -55,6 +55,7 @@ describe('helpers/linkedin-dom', () => {
     })
 
     afterAll(async () => {
+      await feedPage?.close()
       await currentBrowser?.close()
     })
   })

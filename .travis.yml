@@ -1,6 +1,5 @@
 language: node_js
-node_js:
-  - 16
+# node_js: see .nvmrc
 before_script:
   - npm install
 
