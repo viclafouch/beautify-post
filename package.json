@@ -9,7 +9,8 @@
     "build:chrome": "npx cross-env TARGET=chrome webpack --mode=production",
     "build:firefox": "npx cross-env TARGET=firefox webpack --mode=production",
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
-    "lint": "tsc --noEmit && eslint . --ext .ts"
+    "lint": "tsc --noEmit && eslint . --ext .ts",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@babel/core": "7.15.8",
@@ -33,6 +34,7 @@
     "eslint-plugin-jest": "25.2.1",
     "eslint-plugin-jest-formatting": "3.0.0",
     "eslint-plugin-prettier": "4.0.0",
+    "husky": "7.0.2",
     "jest": "27.2.5",
     "jest-environment-jsdom": "27.2.5",
     "jest-environment-jsdom-global": "3.0.0",
