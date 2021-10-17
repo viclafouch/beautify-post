@@ -12,10 +12,11 @@
     "isolatedModules": false,
     "baseUrl": "./src",
     "jsx": "react",
+    "types": ["jest"],
     "paths": {
       "@constants/*": ["constants/*"],
       "@helpers/*": ["helpers/*"],
-      "@components/*": ["components/*"],
+      "@components/*": ["components/*"]
     }
   },
   "include": ["src", "webpack.config.ts"]

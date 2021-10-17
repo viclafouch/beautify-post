@@ -8,6 +8,7 @@
     "build": "concurrently -n w: npm:build:*",
     "build:chrome": "npx cross-env TARGET=chrome webpack --mode=production",
     "build:firefox": "npx cross-env TARGET=firefox webpack --mode=production",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "lint": "tsc --noEmit && eslint . --ext .ts"
   },
   "devDependencies": {
@@ -17,6 +18,7 @@
     "@emotion/babel-plugin": "11.3.0",
     "@emotion/babel-preset-css-prop": "11.2.0",
     "@types/copy-webpack-plugin": "8.0.1",
+    "@types/jest": "27.0.2",
     "@types/node": "16.10.3",
     "@types/react-dom": "17.0.9",
     "@types/webpack": "5.28.0",
@@ -28,9 +30,17 @@
     "copy-webpack-plugin": "9.0.1",
     "eslint": "8.0.0",
     "eslint-config-prettier": "8.3.0",
+    "eslint-plugin-jest": "25.2.1",
+    "eslint-plugin-jest-formatting": "3.0.0",
     "eslint-plugin-prettier": "4.0.0",
+    "jest": "27.2.5",
+    "jest-environment-jsdom": "27.2.5",
+    "jest-environment-jsdom-global": "3.0.0",
+    "jest-extended": "1.0.0",
     "open": "8.3.0",
     "prettier": "2.4.1",
+    "puppeteer": "10.4.0",
+    "ts-jest": "27.0.7",
     "ts-node": "10.3.0",
     "typescript": "4.4.3",
     "webpack": "5.58.1",
@@ -43,6 +53,7 @@
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-solid-svg-icons": "5.15.4",
     "@fortawesome/react-fontawesome": "0.1.15",
+    "dotenv": "10.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   }

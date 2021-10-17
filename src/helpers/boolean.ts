@@ -7,8 +7,8 @@ export function matchIsTextUppercase(text: string): boolean {
   return text === text.toUpperCase()
 }
 
-export function matchIsSelectionTextEmpty(selection: Selection): boolean {
-  return selection.toString().trim() === ''
+export function matchIsTextEmpty(text: string): boolean {
+  return text.trim() === ''
 }
 
 export function matchIsUnicodeLowerBold(unicode: number): boolean {
@@ -27,10 +27,6 @@ export function matchIsUnicodeLowerItalic(unicode: number): boolean {
   return unicode >= unicodes.italic.a && unicode <= unicodes.italic.z
 }
 
-export function matchIsCharacterANormalLetter(char: string): boolean {
-  return /[a-zA-Z]/.test(char)
-}
-
 export function matchIsUnicodeUpperItalic(unicode: number): boolean {
   return unicode >= unicodes.italic.A && unicode <= unicodes.italic.Z
 }
@@ -41,11 +37,14 @@ export function matchIsUnicodeItalic(unicode: number): boolean {
   )
 }
 
-export function matchIsUnicodeFormatted(unicode: number): boolean {
-  return matchIsUnicodeBold(unicode) || matchIsUnicodeItalic(unicode)
+export function matchIsCharacterANormalLetter(char: string): boolean {
+  return /[a-zA-Z]/.test(char[0])
 }
 
 export function matchIsTextIsBold(text: string): boolean {
+  if (matchIsTextEmpty(text)) {
+    return false
+  }
   const textSplitted = splitTextInArray(text)
   return textSplitted.every(character => {
     const unicode = getUnicodeLetter(character)
@@ -63,6 +62,9 @@ export function matchIsTextIsBold(text: string): boolean {
 }
 
 export function matchIsTextIsItalic(text: string): boolean {
+  if (matchIsTextEmpty(text)) {
+    return false
+  }
   const textSplitted = splitTextInArray(text)
   return textSplitted.every(character => {
     const unicode = getUnicodeLetter(character)

@@ -6,7 +6,7 @@ import {
   matchIsTextEditorContainsSelection
 } from '@helpers/dom'
 import { css } from '@emotion/css'
-import { matchIsSelectionTextEmpty } from '@helpers/boolean'
+import { matchIsTextEmpty } from '@helpers/boolean'
 
 let currentIdentifierSelect: string | null = null
 let previousContainer: HTMLDivElement | null = null
@@ -63,7 +63,7 @@ function createTooltipOnBody(selection: Selection): HTMLDivElement {
 
 function handleSelectText() {
   const selection = document.getSelection()
-  if (!selection || matchIsSelectionTextEmpty(selection)) {
+  if (!selection || matchIsTextEmpty(selection.toString())) {
     return
   }
 
