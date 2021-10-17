@@ -28,7 +28,7 @@
     "clean-webpack-plugin": "4.0.0",
     "concurrently": "6.3.0",
     "copy-webpack-plugin": "9.0.1",
-    "eslint": "8.0.0",
+    "eslint": "8.0.1",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-jest": "25.2.1",
     "eslint-plugin-jest-formatting": "3.0.0",
