@@ -1,5 +1,7 @@
 import { unicodes } from '@constants/unicode'
 import {
+  formatBold,
+  formatLetterToBold,
   matchIsTextIsBold,
   matchIsUnicodeBold,
   matchIsUnicodeLowerBold,
@@ -7,7 +9,7 @@ import {
 } from '@helpers/bold'
 import { range } from './utils'
 
-describe('Bold', () => {
+describe('helpers/bold', () => {
   describe('matchIsUnicodeLowerBold', () => {
     it('should return a boolean', () => {
       expect(matchIsUnicodeLowerBold(0)).toBeBoolean()
@@ -123,6 +125,65 @@ describe('Bold', () => {
 
     it('should return false for a text bold or italic', () => {
       expect(matchIsTextIsBold('𝐉𝐞𝐚𝐧 & 𝘑𝘦𝘢𝘯')).toBeFalse()
+    })
+  })
+
+  describe('formatLetterToBold', () => {
+    it('should return a string', () => {
+      expect(formatLetterToBold('t')).toBeString()
+    })
+
+    it('should return the letter in bold', () => {
+      expect(formatLetterToBold('t')).toBe('𝐭')
+    })
+
+    test.each([
+      { value: '' },
+      { value: '⇩' },
+      { value: ',' },
+      { value: '1' },
+      { value: '💙' },
+      { value: '%' },
+      { value: ' ' },
+      { value: 'é' }
+    ])('should return the same letter for `$value`', ({ value }) => {
+      expect(formatLetterToBold(value)).toBe(value)
+    })
+
+    test.each([
+      { value: 't', expected: '𝐭' },
+      { value: 'A', expected: '𝐀' },
+      { value: 'H', expected: '𝐇' },
+      { value: 'c', expected: '𝐜' },
+      { value: 'w', expected: '𝐰' },
+      { value: 'r', expected: '𝐫' }
+    ])(
+      'should return return `$value` into `$expected`',
+      ({ value, expected }) => {
+        expect(formatLetterToBold(value)).toBe(expected)
+      }
+    )
+  })
+
+  describe('formatBold', () => {
+    it('should return a string', () => {
+      expect(formatBold('foo')).toBeString()
+    })
+
+    it('should return string in bold', () => {
+      expect(formatBold('foo')).toBe('𝐟𝐨𝐨')
+    })
+
+    it('should return string in bold with ponctuations', () => {
+      expect(formatBold('Alice, Jean & Bob')).toBe('𝐀𝐥𝐢𝐜𝐞, 𝐉𝐞𝐚𝐧 & 𝐁𝐨𝐛')
+    })
+
+    it('should return same string if nothing to format bold', () => {
+      expect(formatBold('𝘈𝘭𝘪𝘤𝘦 + 𝘉𝘰𝘣 = 💙')).toBe('𝘈𝘭𝘪𝘤𝘦 + 𝘉𝘰𝘣 = 💙')
+    })
+
+    it('should return string in bold with already bold', () => {
+      expect(formatBold('𝐀𝐥𝐢𝐜𝐞, Jean + BOB123')).toBe('𝐀𝐥𝐢𝐜𝐞, 𝐉𝐞𝐚𝐧 + 𝐁𝐎𝐁123')
     })
   })
 })

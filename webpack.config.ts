@@ -5,6 +5,9 @@ import browsers from './browsers'
 import * as path from 'path'
 import open from 'open'
 
+// UNCOMMENT ME TO ANALYSE BUNDLE
+// import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+
 const currentBrowser = process.env.TARGET
 
 if (!currentBrowser || !browsers.includes(currentBrowser)) {
@@ -18,15 +21,14 @@ if (!currentBrowser || !browsers.includes(currentBrowser)) {
   console.info(`\x1b[1;32mBuilding for ${currentBrowser}...\x1b[m`)
 }
 
-const outputPath = path.join(__dirname, 'build', 'chrome')
+const outputPath = path.join(__dirname, 'build', currentBrowser)
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const createConfig = (env: any, argv: any): webpack.Configuration => {
   const IS_DEV = argv.mode === 'development'
-  const config: webpack.Configuration = {
+  const config = {
     watch: IS_DEV,
-    devtool: false,
-    stats: 'minimal',
+    devtool: false as webpack.Configuration['devtool'],
     entry: './src/main.ts',
     output: {
       filename: '[name].bundle.js',
@@ -50,8 +52,10 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
       ]
     },
     plugins: [
+      // UNCOMMENT ME TO ANALYSE BUNDLE
+      // new BundleAnalyzerPlugin(),
       {
-        apply: compiler => {
+        apply: (compiler: webpack.Compiler) => {
           compiler.hooks.afterResolvers.tap('open', () => {
             if (IS_DEV) {
               open('https://www.linkedin.com')

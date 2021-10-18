@@ -1,5 +1,7 @@
 import { unicodes } from '@constants/unicode'
 import {
+  formatItalic,
+  formatLetterToItalic,
   matchIsTextIsItalic,
   matchIsUnicodeItalic,
   matchIsUnicodeLowerItalic,
@@ -7,7 +9,7 @@ import {
 } from '@helpers/italic'
 import { range } from './utils'
 
-describe('Italic', () => {
+describe('helpers/italic', () => {
   describe('matchIsUnicodeLowerItalic', () => {
     it('should return a boolean', () => {
       expect(matchIsUnicodeLowerItalic(0)).toBeBoolean()
@@ -123,6 +125,65 @@ describe('Italic', () => {
 
     it('should return false for a text bold or italic', () => {
       expect(matchIsTextIsItalic('𝐉𝐞𝐚𝐧 & 𝘑𝘦𝘢𝘯')).toBeFalse()
+    })
+  })
+
+  describe('formatLetterToItalic', () => {
+    it('should return a string', () => {
+      expect(formatLetterToItalic('t')).toBeString()
+    })
+
+    it('should return the letter in italic', () => {
+      expect(formatLetterToItalic('t')).toBe('𝘵')
+    })
+
+    test.each([
+      { value: '' },
+      { value: '⇩' },
+      { value: ',' },
+      { value: '1' },
+      { value: '💙' },
+      { value: '%' },
+      { value: ' ' },
+      { value: 'é' }
+    ])('should return the same letter for `$value`', ({ value }) => {
+      expect(formatLetterToItalic(value)).toBe(value)
+    })
+
+    test.each([
+      { value: 't', expected: '𝘵' },
+      { value: 'A', expected: '𝘈' },
+      { value: 'H', expected: '𝘏' },
+      { value: 'c', expected: '𝘤' },
+      { value: 'w', expected: '𝘸' },
+      { value: 'r', expected: '𝘳' }
+    ])(
+      'should return return `$value` into `$expected`',
+      ({ value, expected }) => {
+        expect(formatLetterToItalic(value)).toBe(expected)
+      }
+    )
+  })
+
+  describe('formatItalic', () => {
+    it('should return a string', () => {
+      expect(formatItalic('foo')).toBeString()
+    })
+
+    it('should return string in italic', () => {
+      expect(formatItalic('foo')).toBe('𝘧𝘰𝘰')
+    })
+
+    it('should return string in italic with ponctuations', () => {
+      expect(formatItalic('Alice, Jean & Bob')).toBe('𝘈𝘭𝘪𝘤𝘦, 𝘑𝘦𝘢𝘯 & 𝘉𝘰𝘣')
+    })
+
+    it('should return same string if nothing to format italic', () => {
+      expect(formatItalic('𝐀𝐥𝐢𝐜𝐞 + 𝐁𝐨𝐛 = 💙')).toBe('𝐀𝐥𝐢𝐜𝐞 + 𝐁𝐨𝐛 = 💙')
+    })
+
+    it('should return string in italic with already italic text', () => {
+      expect(formatItalic('𝘈𝘭𝘪𝘤𝘦, Jean + BOB123')).toBe('𝘈𝘭𝘪𝘤𝘦, 𝘑𝘦𝘢𝘯 + 𝘉𝘖𝘉123')
     })
   })
 })

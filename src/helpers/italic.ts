@@ -6,10 +6,6 @@ import {
   matchIsTextEmpty,
   matchIsTextUppercase
 } from './string'
-import {
-  unicodeNormalLowerToItalicText,
-  unicodeNormalUpperToItalicText
-} from './unicode'
 import { matchIsNumber } from './number'
 import { getUnicodeLetter } from './string'
 
@@ -47,16 +43,18 @@ export function matchIsTextIsItalic(text: string): boolean {
   })
 }
 
+export function formatLetterToItalic(normalLetter: string) {
+  const unicode = getUnicodeLetter(normalLetter)
+  if (!matchIsNumber(unicode) || !matchIsCharacterANormalLetter(normalLetter)) {
+    return normalLetter
+  }
+  if (matchIsTextUppercase(normalLetter)) {
+    return String.fromCodePoint(unicodes.italic.A - unicodes.normal.A + unicode)
+  } else {
+    return String.fromCodePoint(unicodes.italic.a - unicodes.normal.a + unicode)
+  }
+}
+
 export function formatItalic(text: string): string {
-  return text.replace(/[A-Za-z]/g, normalLetter => {
-    const unicode = getUnicodeLetter(normalLetter)
-    if (!matchIsNumber(unicode)) {
-      return normalLetter
-    }
-    if (matchIsTextUppercase(normalLetter)) {
-      return unicodeNormalUpperToItalicText(unicode)
-    } else {
-      return unicodeNormalLowerToItalicText(unicode)
-    }
-  })
+  return text.replace(/[A-Za-z]/g, formatLetterToItalic)
 }

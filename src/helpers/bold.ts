@@ -5,10 +5,6 @@ import {
   matchIsTextEmpty,
   matchIsTextUppercase
 } from './string'
-import {
-  unicodeNormalLowerToBoldText,
-  unicodeNormalUpperToBoldText
-} from './unicode'
 import { matchIsUnicodeItalic } from './italic'
 import { matchIsNumber } from './number'
 import { getUnicodeLetter } from './string'
@@ -45,16 +41,18 @@ export function matchIsTextIsBold(text: string): boolean {
   })
 }
 
+export function formatLetterToBold(normalLetter: string) {
+  const unicode = getUnicodeLetter(normalLetter)
+  if (!matchIsNumber(unicode) || !matchIsCharacterANormalLetter(normalLetter)) {
+    return normalLetter
+  }
+  if (matchIsTextUppercase(normalLetter)) {
+    return String.fromCodePoint(unicodes.bold.A - unicodes.normal.A + unicode)
+  } else {
+    return String.fromCodePoint(unicodes.bold.a - unicodes.normal.a + unicode)
+  }
+}
+
 export function formatBold(text: string): string {
-  return text.replace(/[A-Za-z]/g, normalLetter => {
-    const unicode = getUnicodeLetter(normalLetter)
-    if (!matchIsNumber(unicode)) {
-      return normalLetter
-    }
-    if (matchIsTextUppercase(normalLetter)) {
-      return unicodeNormalUpperToBoldText(unicode)
-    } else {
-      return unicodeNormalLowerToBoldText(unicode)
-    }
-  })
+  return text.replace(/[A-Za-z]/g, formatLetterToBold)
 }
