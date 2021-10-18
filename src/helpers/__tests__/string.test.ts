@@ -2,6 +2,7 @@ import {
   getUnicodeLetter,
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
+  formatNormal,
   matchIsTextUppercase
 } from '@helpers/string'
 
@@ -77,6 +78,30 @@ describe('helpers/string', () => {
       { char: '⚙️' }
     ])('should return false for $char', ({ char }) => {
       expect(matchIsCharacterANormalLetter(char)).toBeFalse()
+    })
+  })
+
+  describe('formatNormal', () => {
+    it('should return a string', () => {
+      expect(formatNormal('foo')).toBeString()
+    })
+
+    it('should return bold to normal text', () => {
+      expect(formatNormal('𝐟𝐨𝐨')).toBe('foo')
+    })
+
+    it('should return italic to normal text', () => {
+      expect(formatNormal('𝘪𝘵𝘢𝘭𝘪𝘤')).toBe('italic')
+    })
+
+    it('should return normal to normal text', () => {
+      expect(formatNormal('bar')).toBe('bar')
+    })
+
+    it('should return italic + bold + normal to normal text', () => {
+      expect(formatNormal('𝘪𝘵𝘢𝘭𝘪𝘤 + 𝐛𝐨𝐥𝐝 + normal')).toBe(
+        'italic + bold + normal'
+      )
     })
   })
 })

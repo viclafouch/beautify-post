@@ -43,7 +43,7 @@ export function matchIsTextIsItalic(text: string): boolean {
   })
 }
 
-export function formatLetterToItalic(normalLetter: string) {
+export function formatNormalLetterToItalic(normalLetter: string) {
   const unicode = getUnicodeLetter(normalLetter)
   if (!matchIsNumber(unicode) || !matchIsCharacterANormalLetter(normalLetter)) {
     return normalLetter
@@ -55,6 +55,18 @@ export function formatLetterToItalic(normalLetter: string) {
   }
 }
 
+export function formatItalicLetterToNormal(boldLetter: string) {
+  const unicode = getUnicodeLetter(boldLetter)
+  if (!matchIsNumber(unicode) || !matchIsUnicodeItalic(unicode)) {
+    return boldLetter
+  }
+  if (matchIsUnicodeUpperItalic(unicode)) {
+    return String.fromCodePoint(unicodes.normal.A - unicodes.italic.A + unicode)
+  } else {
+    return String.fromCodePoint(unicodes.normal.a - unicodes.italic.a + unicode)
+  }
+}
+
 export function formatItalic(text: string): string {
-  return text.replace(/[A-Za-z]/g, formatLetterToItalic)
+  return text.replace(/[A-Za-z]/g, formatNormalLetterToItalic)
 }

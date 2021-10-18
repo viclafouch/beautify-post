@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faItalic } from '@fortawesome/free-solid-svg-icons'
 import Button from '@components/Button/button'
 import { formatItalic, matchIsTextIsItalic } from '@helpers/italic'
-import { formatNormal } from '@helpers/normal'
+import { formatNormal } from '@helpers/string'
 
 type ItalicProps = {
   selection: Selection

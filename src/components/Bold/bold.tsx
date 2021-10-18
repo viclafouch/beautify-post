@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBold } from '@fortawesome/free-solid-svg-icons'
 import Button from '@components/Button/button'
 import { formatBold, matchIsTextIsBold } from '@helpers/bold'
-import { formatNormal } from '@helpers/normal'
+import { formatNormal } from '@helpers/string'
 
 type BoldProps = {
   selection: Selection

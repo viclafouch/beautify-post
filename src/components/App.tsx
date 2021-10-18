@@ -2,15 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Tooltip from './Tooltip/tooltip'
 
-type buildAppOnContainerArgs = {
+type InitialProps = {
   onFormat: () => void
   selection: Selection
 }
 
-function buildAppOnContainer(
-  initialProps: buildAppOnContainerArgs,
-  container: Element
-) {
+function buildAppOnContainer(initialProps: InitialProps, container: Element) {
   ReactDOM.render(<Tooltip {...initialProps} />, container)
 }
 

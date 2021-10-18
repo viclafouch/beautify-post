@@ -1,7 +1,7 @@
 import { unicodes } from '@constants/unicode'
 import {
   formatItalic,
-  formatLetterToItalic,
+  formatNormalLetterToItalic,
   matchIsTextIsItalic,
   matchIsUnicodeItalic,
   matchIsUnicodeLowerItalic,
@@ -128,13 +128,13 @@ describe('helpers/italic', () => {
     })
   })
 
-  describe('formatLetterToItalic', () => {
+  describe('formatNormalLetterToItalic', () => {
     it('should return a string', () => {
-      expect(formatLetterToItalic('t')).toBeString()
+      expect(formatNormalLetterToItalic('t')).toBeString()
     })
 
     it('should return the letter in italic', () => {
-      expect(formatLetterToItalic('t')).toBe('𝘵')
+      expect(formatNormalLetterToItalic('t')).toBe('𝘵')
     })
 
     test.each([
@@ -147,7 +147,7 @@ describe('helpers/italic', () => {
       { value: ' ' },
       { value: 'é' }
     ])('should return the same letter for `$value`', ({ value }) => {
-      expect(formatLetterToItalic(value)).toBe(value)
+      expect(formatNormalLetterToItalic(value)).toBe(value)
     })
 
     test.each([
@@ -160,7 +160,7 @@ describe('helpers/italic', () => {
     ])(
       'should return return `$value` into `$expected`',
       ({ value, expected }) => {
-        expect(formatLetterToItalic(value)).toBe(expected)
+        expect(formatNormalLetterToItalic(value)).toBe(expected)
       }
     )
   })

@@ -41,7 +41,7 @@ export function matchIsTextIsBold(text: string): boolean {
   })
 }
 
-export function formatLetterToBold(normalLetter: string) {
+export function formatNormalLetterToBold(normalLetter: string) {
   const unicode = getUnicodeLetter(normalLetter)
   if (!matchIsNumber(unicode) || !matchIsCharacterANormalLetter(normalLetter)) {
     return normalLetter
@@ -53,6 +53,18 @@ export function formatLetterToBold(normalLetter: string) {
   }
 }
 
+export function formatBoldLetterToNormal(boldLetter: string) {
+  const unicode = getUnicodeLetter(boldLetter)
+  if (!matchIsNumber(unicode) || !matchIsUnicodeBold(unicode)) {
+    return boldLetter
+  }
+  if (matchIsUnicodeUpperBold(unicode)) {
+    return String.fromCodePoint(unicodes.normal.A - unicodes.bold.A + unicode)
+  } else {
+    return String.fromCodePoint(unicodes.normal.a - unicodes.bold.a + unicode)
+  }
+}
+
 export function formatBold(text: string): string {
-  return text.replace(/[A-Za-z]/g, formatLetterToBold)
+  return text.replace(/[A-Za-z]/g, formatNormalLetterToBold)
 }

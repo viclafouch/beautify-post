@@ -1,7 +1,7 @@
 import { unicodes } from '@constants/unicode'
 import {
   formatBold,
-  formatLetterToBold,
+  formatNormalLetterToBold,
   matchIsTextIsBold,
   matchIsUnicodeBold,
   matchIsUnicodeLowerBold,
@@ -128,13 +128,13 @@ describe('helpers/bold', () => {
     })
   })
 
-  describe('formatLetterToBold', () => {
+  describe('formatNormalLetterToBold', () => {
     it('should return a string', () => {
-      expect(formatLetterToBold('t')).toBeString()
+      expect(formatNormalLetterToBold('t')).toBeString()
     })
 
     it('should return the letter in bold', () => {
-      expect(formatLetterToBold('t')).toBe('𝐭')
+      expect(formatNormalLetterToBold('t')).toBe('𝐭')
     })
 
     test.each([
@@ -147,7 +147,7 @@ describe('helpers/bold', () => {
       { value: ' ' },
       { value: 'é' }
     ])('should return the same letter for `$value`', ({ value }) => {
-      expect(formatLetterToBold(value)).toBe(value)
+      expect(formatNormalLetterToBold(value)).toBe(value)
     })
 
     test.each([
@@ -160,7 +160,7 @@ describe('helpers/bold', () => {
     ])(
       'should return return `$value` into `$expected`',
       ({ value, expected }) => {
-        expect(formatLetterToBold(value)).toBe(expected)
+        expect(formatNormalLetterToBold(value)).toBe(expected)
       }
     )
   })
