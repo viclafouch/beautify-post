@@ -15,8 +15,6 @@ const Bold = (props: BoldProps): React.ReactElement => {
   const currentText = selection.toString()
   const isTextIsBold = matchIsTextIsBold(currentText)
 
-  console.log({ isTextIsBold })
-
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {

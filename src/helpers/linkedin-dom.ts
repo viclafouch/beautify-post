@@ -14,8 +14,9 @@ export function matchIsPopupOpened() {
   return formElement && container?.contains(formElement)
 }
 
-export function matchIsTextEditorContainsSelection(range: Range) {
+export function matchIsTextEditorContainsSelection(selection: Selection) {
   const textEditor = getTextEditorElement() as HTMLDivElement
+  const range = selection.getRangeAt(0)
   return (
     textEditor.contains(range.startContainer) &&
     textEditor.contains(range.endContainer)

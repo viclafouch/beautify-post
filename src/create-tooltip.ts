@@ -1,13 +1,8 @@
 import { debounce } from '@helpers/debounce'
-import ReactDOM from 'react-dom'
 import buildAppOnContainer from '@components/App'
-import { matchIsClickInside } from '@helpers/dom'
 import { css } from '@emotion/css'
 import { matchIsTextEmpty } from '@helpers/string'
 import { matchIsTextEditorContainsSelection } from '@helpers/linkedin-dom'
-
-let currentIdentifierSelect: string | null = null
-let previousContainer: HTMLDivElement | null = null
 
 function getTooltipClassName(domRect: DOMRect): string {
   return css`
@@ -25,38 +20,14 @@ function getTooltipClassName(domRect: DOMRect): string {
   `
 }
 
-function clearTooltip(container: HTMLDivElement) {
-  ReactDOM.unmountComponentAtNode(container)
-  container.remove()
-  previousContainer = null
-  currentIdentifierSelect = null
-}
-
-function createTooltipOnBody(selection: Selection): HTMLDivElement {
+function createTooltipOnBody(selection: Selection) {
   const range = selection.getRangeAt(0)
   const domRect = range.getBoundingClientRect()
   const container = document.createElement('div')
   container.id = 'linkedin-formatter-tooltip'
   container.classList.add(getTooltipClassName(domRect))
-
-  function handleDocumentClick(event: MouseEvent) {
-    const hasClickInside = matchIsClickInside(container, event.target)
-    if (!hasClickInside) {
-      document.removeEventListener('click', handleDocumentClick, false)
-      clearTooltip(container)
-    }
-  }
-
-  document.addEventListener('click', handleDocumentClick, false)
   document.body.appendChild(container)
-  buildAppOnContainer(
-    {
-      selection,
-      onFormat: () => clearTooltip(container)
-    },
-    container
-  )
-  return container
+  buildAppOnContainer({ selection }, container)
 }
 
 function handleSelectText() {
@@ -64,22 +35,10 @@ function handleSelectText() {
   if (!selection || matchIsTextEmpty(selection.toString())) {
     return
   }
-
-  const range = selection.getRangeAt(0)
-
-  if (!matchIsTextEditorContainsSelection(range)) {
+  if (!matchIsTextEditorContainsSelection(selection)) {
     return
   }
-
-  const identifierSelect = selection.toString()
-
-  if (identifierSelect !== currentIdentifierSelect) {
-    if (previousContainer) {
-      clearTooltip(previousContainer)
-    }
-    currentIdentifierSelect = selection.toString()
-    previousContainer = createTooltipOnBody(selection)
-  }
+  createTooltipOnBody(selection)
 }
 
 function initTootlip() {
