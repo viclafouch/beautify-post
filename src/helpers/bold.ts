@@ -5,11 +5,17 @@ import {
   matchIsTextEmpty,
   matchIsTextUppercase
 } from './string'
-import { formatItalicLetterToNormal, matchIsUnicodeItalic } from './italic'
+import {
+  formatItalicLetterToNormal,
+  formatNormalLetterToItalic,
+  matchIsUnicodeItalic
+} from './italic'
 import { matchIsNumber } from './number'
 import { getUnicodeLetter } from './string'
 import {
+  formatBoldItalicLetterToNormal,
   formatNormalLetterToBoldItalic,
+  matchIsTextIsBoldItalic,
   matchIsUnicodeBoldItalic
 } from './bold-italic'
 
@@ -25,25 +31,40 @@ export function matchIsUnicodeBold(unicode: number): boolean {
   return matchIsUnicodeLowerBold(unicode) || matchIsUnicodeUpperBold(unicode)
 }
 
-export function matchIsTextIsBold(text: string): boolean {
+function matchIsLetterBold(letter: string): boolean {
+  const unicode = getUnicodeLetter(letter)
+  if (!matchIsNumber(unicode)) {
+    return true
+  }
+  if (matchIsUnicodeItalic(unicode)) {
+    return false
+  }
+  return (
+    matchIsUnicodeBoldItalic(unicode) ||
+    matchIsUnicodeBold(unicode) ||
+    !matchIsCharacterANormalLetter(letter)
+  )
+}
+
+type MatchIsTextIsBoldOpts = {
+  checkEveryLetters: boolean
+}
+
+const matchIsTextIsBoldDefaultOpts: MatchIsTextIsBoldOpts = {
+  checkEveryLetters: true
+}
+
+export function matchIsTextIsBold(
+  text: string,
+  options = matchIsTextIsBoldDefaultOpts
+): boolean {
   if (matchIsTextEmpty(text)) {
     return false
   }
   const textSplitted = splitTextInArray(text)
-  return textSplitted.every(character => {
-    const unicode = getUnicodeLetter(character)
-    if (!matchIsNumber(unicode)) {
-      return true
-    }
-    if (matchIsUnicodeItalic(unicode)) {
-      return false
-    }
-    return (
-      matchIsUnicodeBoldItalic(unicode) ||
-      matchIsUnicodeBold(unicode) ||
-      !matchIsCharacterANormalLetter(character)
-    )
-  })
+  return options.checkEveryLetters
+    ? textSplitted.every(matchIsLetterBold)
+    : textSplitted.some(matchIsLetterBold)
 }
 
 export function formatNormalLetterToBold(normalLetter: string) {
@@ -68,6 +89,21 @@ export function formatBoldLetterToNormal(boldLetter: string) {
   } else {
     return String.fromCodePoint(unicodes.normal.a - unicodes.bold.a + unicode)
   }
+}
+
+export function removeBoldFromText(text: string) {
+  const textSplitted = splitTextInArray(text)
+  const textSplittedFormatted = textSplitted.map(letter => {
+    if (matchIsTextIsBoldItalic(letter)) {
+      const normalLetter = formatBoldItalicLetterToNormal(letter)
+      return formatNormalLetterToItalic(normalLetter)
+    } else if (matchIsTextIsBold(letter)) {
+      return formatBoldLetterToNormal(letter)
+    } else {
+      return letter
+    }
+  })
+  return textSplittedFormatted.join('')
 }
 
 export function formatBold(text: string): string {

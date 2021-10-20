@@ -1,9 +1,11 @@
+import { FormatType } from '@constants/format-type'
 import {
   getUnicodeLetter,
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
   formatNormal,
-  matchIsTextUppercase
+  matchIsTextUppercase,
+  formatTextByType
 } from '@helpers/string'
 
 describe('helpers/string', () => {
@@ -106,6 +108,32 @@ describe('helpers/string', () => {
       expect(formatNormal('𝘪𝘵𝘢𝘭𝘪𝘤 + 𝐛𝐨𝐥𝐝 + 𝒃𝒐𝒍𝒅-𝒊𝒕𝒂𝒍𝒊𝒄 + normal')).toBe(
         'italic + bold + bold-italic + normal'
       )
+    })
+  })
+
+  describe('formatTextByType', () => {
+    describe('formatTextByType/bold', () => {
+      test.each([
+        { text: 'Alice & Bob', expected: '𝐀𝐥𝐢𝐜𝐞 & 𝐁𝐨𝐛' },
+        { text: '𝐀𝐥𝐢𝐜𝐞 & 𝐁𝐨𝐛', expected: 'Alice & Bob' },
+        { text: '𝘏𝘦𝘭𝘭𝘰 𝘸𝘰𝘳𝘭𝘥', expected: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅' },
+        { text: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅', expected: '𝘏𝘦𝘭𝘭𝘰 𝘸𝘰𝘳𝘭𝘥' },
+        { text: 'Apple 𝘫𝘶𝘪𝘤𝘦', expected: '𝐀𝐩𝐩𝐥𝐞 𝒋𝒖𝒊𝒄𝒆' }
+      ])("should transform '$text' into '$expected'", ({ text, expected }) => {
+        expect(formatTextByType(text, FormatType.bold)).toBe(expected)
+      })
+    })
+
+    describe('formatTextByType/italic', () => {
+      test.each([
+        { text: 'Alice & Bob', expected: '𝘈𝘭𝘪𝘤𝘦 & 𝘉𝘰𝘣' },
+        { text: '𝘈𝘭𝘪𝘤𝘦 & 𝘉𝘰𝘣', expected: 'Alice & Bob' },
+        { text: '𝐇𝐞𝐥𝐥𝐨 𝐰𝐨𝐫𝐥𝐝', expected: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅' },
+        { text: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅', expected: '𝐇𝐞𝐥𝐥𝐨 𝐰𝐨𝐫𝐥𝐝' },
+        { text: 'LinkedIn 𝐓𝐞𝐱𝐭', expected: '𝘓𝘪𝘯𝘬𝘦𝘥𝘐𝘯 𝑻𝒆𝒙𝒕' }
+      ])("should transform '$text' into '$expected'", ({ text, expected }) => {
+        expect(formatTextByType(text, FormatType.italic)).toBe(expected)
+      })
     })
   })
 })

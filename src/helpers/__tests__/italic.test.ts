@@ -5,7 +5,8 @@ import {
   matchIsTextIsItalic,
   matchIsUnicodeItalic,
   matchIsUnicodeLowerItalic,
-  matchIsUnicodeUpperItalic
+  matchIsUnicodeUpperItalic,
+  removeItalicFromText
 } from '@helpers/italic'
 import { range } from './utils'
 
@@ -123,6 +124,18 @@ describe('helpers/italic', () => {
       expect(matchIsTextIsItalic(', @ds§ ()')).toBeFalse()
     })
 
+    it('should return true for a word in some italic letters (false)', () => {
+      expect(
+        matchIsTextIsItalic('𝘈lice', { checkEveryLetters: false })
+      ).toBeTrue()
+    })
+
+    it('should return false for a word in some italic letters (true)', () => {
+      expect(
+        matchIsTextIsItalic('𝘈lice', { checkEveryLetters: true })
+      ).toBeFalse()
+    })
+
     it('should return false for a text bold or italic', () => {
       expect(matchIsTextIsItalic('𝐉𝐞𝐚𝐧 & 𝘑𝘦𝘢𝘯')).toBeFalse()
     })
@@ -196,6 +209,32 @@ describe('helpers/italic', () => {
 
     it('should return string in italic with already italic text', () => {
       expect(formatItalic('𝘈𝘭𝘪𝘤𝘦, Jean + BOB123')).toBe('𝘈𝘭𝘪𝘤𝘦, 𝘑𝘦𝘢𝘯 + 𝘉𝘖𝘉123')
+    })
+  })
+
+  describe('removeItalicFromText', () => {
+    it('should return a string', () => {
+      expect(removeItalicFromText('𝘉𝘭𝘰𝘪𝘴')).toBeString()
+    })
+
+    it('should remove italic from full italic text', () => {
+      expect(removeItalicFromText('𝘑𝘦𝘢𝘯𝘯𝘦')).toBe('Jeanne')
+    })
+
+    it('should remove italic from some italic text', () => {
+      expect(removeItalicFromText('𝘈𝘭ic𝘦')).toBe('Alice')
+    })
+
+    it('should remove italic from full bold-italic text', () => {
+      expect(removeItalicFromText('𝑩𝒍𝒐𝒊𝒔')).toBe('𝐁𝐥𝐨𝐢𝐬')
+    })
+
+    it('should remove italic from some bold-italic text', () => {
+      expect(removeItalicFromText('Jeanne 𝑩𝒍𝒐𝒊𝒔')).toBe('Jeanne 𝐁𝐥𝐨𝐢𝐬')
+    })
+
+    it('should remove italic from some bold-italic and italic text', () => {
+      expect(removeItalicFromText('𝘈𝘭𝘪𝘤𝘦 and 𝑩𝒐𝒃')).toBe('Alice and 𝐁𝐨𝐛')
     })
   })
 })

@@ -26,24 +26,38 @@ export function matchIsUnicodeBoldItalic(unicode: number): boolean {
   )
 }
 
-export function matchIsTextIsBoldItalic(text: string): boolean {
+export function matchIsLetterBoldItalic(letter: string): boolean {
+  const unicode = getUnicodeLetter(letter)
+  if (!matchIsNumber(unicode)) {
+    return true
+  }
+  if (matchIsUnicodeBold(unicode) || matchIsUnicodeItalic(unicode)) {
+    return false
+  }
+  return (
+    matchIsUnicodeBoldItalic(unicode) || !matchIsCharacterANormalLetter(letter)
+  )
+}
+
+type MatchIsTextIsBoldItalicOpts = {
+  checkEveryLetters: boolean
+}
+
+const matchIsTextIsBoldItalicDefaultOpts: MatchIsTextIsBoldItalicOpts = {
+  checkEveryLetters: true
+}
+
+export function matchIsTextIsBoldItalic(
+  text: string,
+  options = matchIsTextIsBoldItalicDefaultOpts
+): boolean {
   if (matchIsTextEmpty(text)) {
     return false
   }
   const textSplitted = splitTextInArray(text)
-  return textSplitted.every(character => {
-    const unicode = getUnicodeLetter(character)
-    if (!matchIsNumber(unicode)) {
-      return true
-    }
-    if (matchIsUnicodeBold(unicode) || matchIsUnicodeItalic(unicode)) {
-      return false
-    }
-    return (
-      matchIsUnicodeBoldItalic(unicode) ||
-      !matchIsCharacterANormalLetter(character)
-    )
-  })
+  return options.checkEveryLetters
+    ? textSplitted.every(matchIsLetterBoldItalic)
+    : textSplitted.some(matchIsLetterBoldItalic)
 }
 
 export function formatNormalLetterToBoldItalic(normalLetter: string) {

@@ -5,7 +5,8 @@ import {
   matchIsTextIsBold,
   matchIsUnicodeBold,
   matchIsUnicodeLowerBold,
-  matchIsUnicodeUpperBold
+  matchIsUnicodeUpperBold,
+  removeBoldFromText
 } from '@helpers/bold'
 import { range } from './utils'
 
@@ -93,6 +94,18 @@ describe('helpers/bold', () => {
 
     it('should return true for a simple word in bold', () => {
       expect(matchIsTextIsBold('𝐀𝐥𝐢𝐜𝐞')).toBeTrue()
+    })
+
+    it('should return true for a word in some bold letters (false)', () => {
+      expect(
+        matchIsTextIsBold('𝐀lice', { checkEveryLetters: false })
+      ).toBeTrue()
+    })
+
+    it('should return false for a word in some bold letters (true)', () => {
+      expect(
+        matchIsTextIsBold('𝐀lice', { checkEveryLetters: true })
+      ).toBeFalse()
     })
 
     it('should return true for a simple words in bold with ponctuations', () => {
@@ -193,6 +206,32 @@ describe('helpers/bold', () => {
 
     it('should return string in bold with already bold', () => {
       expect(formatBold('𝐀𝐥𝐢𝐜𝐞, Jean + BOB123')).toBe('𝐀𝐥𝐢𝐜𝐞, 𝐉𝐞𝐚𝐧 + 𝐁𝐎𝐁123')
+    })
+  })
+
+  describe('removeBoldFromText', () => {
+    it('should return a string', () => {
+      expect(removeBoldFromText('𝐁𝐥𝐨𝐢𝐬')).toBeString()
+    })
+
+    it('should remove bold from full bold text', () => {
+      expect(removeBoldFromText('𝐉𝐞𝐚𝐧𝐧𝐞')).toBe('Jeanne')
+    })
+
+    it('should remove bold from some bold text', () => {
+      expect(removeBoldFromText('𝐀𝐥ic𝐞')).toBe('Alice')
+    })
+
+    it('should remove bold from full bold-italic text', () => {
+      expect(removeBoldFromText('𝑩𝒍𝒐𝒊𝒔')).toBe('𝘉𝘭𝘰𝘪𝘴')
+    })
+
+    it('should remove bold from some bold-italic text', () => {
+      expect(removeBoldFromText('Jeanne 𝑩𝒍𝒐𝒊𝒔')).toBe('Jeanne 𝘉𝘭𝘰𝘪𝘴')
+    })
+
+    it('should remove bold from some bold-italic and bold text', () => {
+      expect(removeBoldFromText('𝐀𝐥𝐢𝐜𝐞 and 𝑩𝒐𝒃')).toBe('Alice and 𝘉𝘰𝘣')
     })
   })
 })

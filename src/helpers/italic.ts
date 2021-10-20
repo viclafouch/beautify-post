@@ -1,6 +1,10 @@
 import { unicodes } from '@constants/unicode'
 import { splitTextInArray } from './array'
-import { formatBoldLetterToNormal, matchIsUnicodeBold } from './bold'
+import {
+  formatBoldLetterToNormal,
+  formatNormalLetterToBold,
+  matchIsUnicodeBold
+} from './bold'
 import {
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
@@ -9,7 +13,9 @@ import {
 import { matchIsNumber } from './number'
 import { getUnicodeLetter } from './string'
 import {
+  formatBoldItalicLetterToNormal,
   formatNormalLetterToBoldItalic,
+  matchIsTextIsBoldItalic,
   matchIsUnicodeBoldItalic
 } from './bold-italic'
 
@@ -27,26 +33,40 @@ export function matchIsUnicodeItalic(unicode: number): boolean {
   )
 }
 
-export function matchIsTextIsItalic(text: string): boolean {
+export function matchIsLetterIsItalic(letter: string): boolean {
+  const unicode = getUnicodeLetter(letter)
+  if (!matchIsNumber(unicode)) {
+    return true
+  }
+  if (matchIsUnicodeBold(unicode)) {
+    return false
+  }
+  return (
+    matchIsUnicodeBoldItalic(unicode) ||
+    matchIsUnicodeItalic(unicode) ||
+    !matchIsCharacterANormalLetter(letter)
+  )
+}
+
+type MatchIsTextIsItalicOpts = {
+  checkEveryLetters: boolean
+}
+
+const matchIsTextIsBoldDefaultOpts: MatchIsTextIsItalicOpts = {
+  checkEveryLetters: true
+}
+
+export function matchIsTextIsItalic(
+  text: string,
+  options = matchIsTextIsBoldDefaultOpts
+): boolean {
   if (matchIsTextEmpty(text)) {
     return false
   }
   const textSplitted = splitTextInArray(text)
-  return textSplitted.every(character => {
-    const unicode = getUnicodeLetter(character)
-    if (!matchIsNumber(unicode)) {
-      return true
-    }
-    if (matchIsUnicodeBold(unicode)) {
-      return false
-    }
-
-    return (
-      matchIsUnicodeBoldItalic(unicode) ||
-      matchIsUnicodeItalic(unicode) ||
-      !matchIsCharacterANormalLetter(character)
-    )
-  })
+  return options.checkEveryLetters
+    ? textSplitted.every(matchIsLetterIsItalic)
+    : textSplitted.some(matchIsLetterIsItalic)
 }
 
 export function formatNormalLetterToItalic(normalLetter: string) {
@@ -71,6 +91,21 @@ export function formatItalicLetterToNormal(boldLetter: string) {
   } else {
     return String.fromCodePoint(unicodes.normal.a - unicodes.italic.a + unicode)
   }
+}
+
+export function removeItalicFromText(text: string) {
+  const textSplitted = splitTextInArray(text)
+  const textSplittedFormatted = textSplitted.map(letter => {
+    if (matchIsTextIsBoldItalic(letter)) {
+      const normalLetter = formatBoldItalicLetterToNormal(letter)
+      return formatNormalLetterToBold(normalLetter)
+    } else if (matchIsTextIsItalic(letter)) {
+      return formatItalicLetterToNormal(letter)
+    } else {
+      return letter
+    }
+  })
+  return textSplittedFormatted.join('')
 }
 
 export function formatItalic(text: string): string {
