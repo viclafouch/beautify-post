@@ -126,6 +126,14 @@ describe('helpers/italic', () => {
     it('should return false for a text bold or italic', () => {
       expect(matchIsTextIsItalic('𝐉𝐞𝐚𝐧 & 𝘑𝘦𝘢𝘯')).toBeFalse()
     })
+
+    it('should return true for a bold-italic text', () => {
+      expect(matchIsTextIsItalic('𝒇𝒐𝒐')).toBeTrue()
+    })
+
+    it('should return true for a bold-italic and bold text', () => {
+      expect(matchIsTextIsItalic('𝒇𝒐𝒐 & 𝘣𝘢𝘳')).toBeTrue()
+    })
   })
 
   describe('formatNormalLetterToItalic', () => {
@@ -172,6 +180,14 @@ describe('helpers/italic', () => {
 
     it('should return string in italic', () => {
       expect(formatItalic('foo')).toBe('𝘧𝘰𝘰')
+    })
+
+    it('should return bold string in bold-italic string', () => {
+      expect(formatItalic('𝐟𝐨𝐨')).toBe('𝒇𝒐𝒐')
+    })
+
+    it('should return italic and bold strings in bold-string', () => {
+      expect(formatItalic('𝐟𝐨𝐨 & 𝘣𝘢𝘳')).toBe('𝒇𝒐𝒐 & 𝘣𝘢𝘳')
     })
 
     it('should return string in italic with ponctuations', () => {

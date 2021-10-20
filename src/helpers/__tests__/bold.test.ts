@@ -126,6 +126,14 @@ describe('helpers/bold', () => {
     it('should return false for a text bold or italic', () => {
       expect(matchIsTextIsBold('𝐉𝐞𝐚𝐧 & 𝘑𝘦𝘢𝘯')).toBeFalse()
     })
+
+    it('should return true for a bold-italic text', () => {
+      expect(matchIsTextIsBold('𝒇𝒐𝒐')).toBeTrue()
+    })
+
+    it('should return true for a bold-italic and bold text', () => {
+      expect(matchIsTextIsBold('𝒇𝒐𝒐 & 𝐛𝐚𝐫')).toBeTrue()
+    })
   })
 
   describe('formatNormalLetterToBold', () => {
@@ -157,12 +165,9 @@ describe('helpers/bold', () => {
       { value: 'c', expected: '𝐜' },
       { value: 'w', expected: '𝐰' },
       { value: 'r', expected: '𝐫' }
-    ])(
-      'should return return `$value` into `$expected`',
-      ({ value, expected }) => {
-        expect(formatNormalLetterToBold(value)).toBe(expected)
-      }
-    )
+    ])('should return `$value` into `$expected`', ({ value, expected }) => {
+      expect(formatNormalLetterToBold(value)).toBe(expected)
+    })
   })
 
   describe('formatBold', () => {
@@ -172,6 +177,14 @@ describe('helpers/bold', () => {
 
     it('should return string in bold', () => {
       expect(formatBold('foo')).toBe('𝐟𝐨𝐨')
+    })
+
+    it('should return italic string in bold-string', () => {
+      expect(formatBold('𝘧𝘰𝘰')).toBe('𝒇𝒐𝒐')
+    })
+
+    it('should return italic and bold strings in bold-string', () => {
+      expect(formatBold('𝘧𝘰𝘰 & 𝐛𝐚𝐫')).toBe('𝒇𝒐𝒐 & 𝐛𝐚𝐫')
     })
 
     it('should return string in bold with ponctuations', () => {

@@ -5,10 +5,13 @@ import {
   matchIsTextEmpty,
   matchIsTextUppercase
 } from './string'
-import { matchIsUnicodeItalic } from './italic'
+import { formatItalicLetterToNormal, matchIsUnicodeItalic } from './italic'
 import { matchIsNumber } from './number'
 import { getUnicodeLetter } from './string'
-import { matchIsUnicodeBoldItalic } from './bold-italic'
+import {
+  formatNormalLetterToBoldItalic,
+  matchIsUnicodeBoldItalic
+} from './bold-italic'
 
 export function matchIsUnicodeLowerBold(unicode: number): boolean {
   return unicode >= unicodes.bold.a && unicode <= unicodes.bold.z
@@ -32,11 +35,13 @@ export function matchIsTextIsBold(text: string): boolean {
     if (!matchIsNumber(unicode)) {
       return true
     }
-    if (matchIsUnicodeItalic(unicode) || matchIsUnicodeBoldItalic(unicode)) {
+    if (matchIsUnicodeItalic(unicode)) {
       return false
     }
     return (
-      matchIsUnicodeBold(unicode) || !matchIsCharacterANormalLetter(character)
+      matchIsUnicodeBoldItalic(unicode) ||
+      matchIsUnicodeBold(unicode) ||
+      !matchIsCharacterANormalLetter(character)
     )
   })
 }
@@ -66,5 +71,16 @@ export function formatBoldLetterToNormal(boldLetter: string) {
 }
 
 export function formatBold(text: string): string {
-  return text.replace(/[A-Za-z]/g, formatNormalLetterToBold)
+  const textSplitted = splitTextInArray(text)
+  const textSplittedFormatted = textSplitted.map(letter => {
+    const unicode = getUnicodeLetter(letter)
+    if (!matchIsNumber(unicode)) {
+      return letter
+    }
+    if (matchIsUnicodeItalic(unicode)) {
+      return formatNormalLetterToBoldItalic(formatItalicLetterToNormal(letter))
+    }
+    return formatNormalLetterToBold(letter)
+  })
+  return textSplittedFormatted.join('')
 }

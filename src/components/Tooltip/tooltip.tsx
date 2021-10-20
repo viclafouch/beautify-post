@@ -4,6 +4,7 @@ import Styled from './tooltip.styled'
 import Italic from '@components/Italic/italic'
 import { useDetectClickOutside } from 'react-detect-click-outside'
 import { replaceSelectedText } from '@helpers/selection'
+import Clean from '@components/Clean/clean'
 
 type TooltipProps = {
   close?: () => void
@@ -25,6 +26,7 @@ const Tooltip = (props: TooltipProps): React.ReactElement => {
     <Styled ref={ref} id="linkedin-formatter-tooltip">
       <Bold selection={selection} formatText={formatText} />
       <Italic selection={selection} formatText={formatText} />
+      <Clean selection={selection} formatText={formatText} />
     </Styled>
   )
 }

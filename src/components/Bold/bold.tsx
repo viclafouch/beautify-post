@@ -5,7 +5,7 @@ import Button from '@components/Button/button'
 import { formatBold, matchIsTextIsBold } from '@helpers/bold'
 import { formatNormal } from '@helpers/string'
 import { formatItalic, matchIsTextIsItalic } from '@helpers/italic'
-import { formatBoldItalic, matchIsTextIsBoldItalic } from '@helpers/bold-italic'
+import { formatBoldItalic } from '@helpers/bold-italic'
 
 type BoldProps = {
   selection: Selection
@@ -17,21 +17,20 @@ const Bold = (props: BoldProps): React.ReactElement => {
   const currentText = selection.toString()
   const isTextIsBold = matchIsTextIsBold(currentText)
   const isTextIsItalic = matchIsTextIsItalic(currentText)
-  const isTextIsBoldItalic = matchIsTextIsBoldItalic(currentText)
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault()
-    if (isTextIsBold) {
-      const textInNormal = formatNormal(currentText)
-      formatText(textInNormal)
+    if (isTextIsItalic && isTextIsBold) {
+      const textInItalic = formatItalic(formatNormal(currentText))
+      formatText(textInItalic)
     } else if (isTextIsItalic) {
       const textInBoldItalic = formatBoldItalic(currentText)
       formatText(textInBoldItalic)
-    } else if (isTextIsBoldItalic) {
-      const textInItalic = formatItalic(formatNormal(currentText))
-      formatText(textInItalic)
+    } else if (isTextIsBold) {
+      const normalText = formatNormal(currentText)
+      formatText(normalText)
     } else {
       const textInBold = formatBold(currentText)
       formatText(textInBold)
@@ -39,11 +38,7 @@ const Bold = (props: BoldProps): React.ReactElement => {
   }
 
   return (
-    <Button
-      type="button"
-      onClick={handleClick}
-      isSelected={isTextIsBold || isTextIsBoldItalic}
-    >
+    <Button type="button" onClick={handleClick} isSelected={isTextIsBold}>
       <FontAwesomeIcon icon={faBold} />
     </Button>
   )
