@@ -194,10 +194,6 @@ describe('helpers/italic', () => {
       expect(formatItalic('Alice, Jean & Bob')).toBe('𝘈𝘭𝘪𝘤𝘦, 𝘑𝘦𝘢𝘯 & 𝘉𝘰𝘣')
     })
 
-    it('should return same string if nothing to format italic', () => {
-      expect(formatItalic('𝐀𝐥𝐢𝐜𝐞 + 𝐁𝐨𝐛 = 💙')).toBe('𝐀𝐥𝐢𝐜𝐞 + 𝐁𝐨𝐛 = 💙')
-    })
-
     it('should return string in italic with already italic text', () => {
       expect(formatItalic('𝘈𝘭𝘪𝘤𝘦, Jean + BOB123')).toBe('𝘈𝘭𝘪𝘤𝘦, 𝘑𝘦𝘢𝘯 + 𝘉𝘖𝘉123')
     })

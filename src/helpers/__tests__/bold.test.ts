@@ -191,10 +191,6 @@ describe('helpers/bold', () => {
       expect(formatBold('Alice, Jean & Bob')).toBe('𝐀𝐥𝐢𝐜𝐞, 𝐉𝐞𝐚𝐧 & 𝐁𝐨𝐛')
     })
 
-    it('should return same string if nothing to format bold', () => {
-      expect(formatBold('𝘈𝘭𝘪𝘤𝘦 + 𝘉𝘰𝘣 = 💙')).toBe('𝘈𝘭𝘪𝘤𝘦 + 𝘉𝘰𝘣 = 💙')
-    })
-
     it('should return string in bold with already bold', () => {
       expect(formatBold('𝐀𝐥𝐢𝐜𝐞, Jean + BOB123')).toBe('𝐀𝐥𝐢𝐜𝐞, 𝐉𝐞𝐚𝐧 + 𝐁𝐎𝐁123')
     })
