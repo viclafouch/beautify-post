@@ -8,6 +8,7 @@ import {
 } from './string'
 import { matchIsNumber } from './number'
 import { getUnicodeLetter } from './string'
+import { matchIsUnicodeBoldItalic } from './bold-italic'
 
 export function matchIsUnicodeLowerItalic(unicode: number): boolean {
   return unicode >= unicodes.italic.a && unicode <= unicodes.italic.z
@@ -33,13 +34,12 @@ export function matchIsTextIsItalic(text: string): boolean {
     if (!matchIsNumber(unicode)) {
       return true
     }
-    if (matchIsUnicodeBold(unicode)) {
+    if (matchIsUnicodeBold(unicode) || matchIsUnicodeBoldItalic(unicode)) {
       return false
     }
-    const isLowerItalic = matchIsUnicodeLowerItalic(unicode)
-    const isUpperItalic = matchIsUnicodeUpperItalic(unicode)
-    const isNormalLetter = matchIsCharacterANormalLetter(character)
-    return isLowerItalic || isUpperItalic || !isNormalLetter
+    return (
+      matchIsUnicodeItalic(unicode) || !matchIsCharacterANormalLetter(character)
+    )
   })
 }
 

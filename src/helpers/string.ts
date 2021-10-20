@@ -2,6 +2,7 @@ import { compose } from './compose'
 import { splitTextInArray } from './array'
 import { formatBoldLetterToNormal } from './bold'
 import { formatItalicLetterToNormal } from './italic'
+import { formatBoldItalicLetterToNormal } from './bold-italic'
 
 export function getUnicodeLetter(letter: string): undefined | number {
   return letter.codePointAt(0)
@@ -22,7 +23,11 @@ export function matchIsCharacterANormalLetter(char: string): boolean {
 export function formatNormal(text: string): string {
   const textSplitted = splitTextInArray(text)
   const textSplittedFormatted = textSplitted.map(letter => {
-    return compose(formatBoldLetterToNormal, formatItalicLetterToNormal)(letter)
+    return compose(
+      formatBoldLetterToNormal,
+      formatItalicLetterToNormal,
+      formatBoldItalicLetterToNormal
+    )(letter)
   })
   return textSplittedFormatted.join('')
 }

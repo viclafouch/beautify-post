@@ -16,5 +16,11 @@ export const unicodes = {
     a: 'a'.codePointAt(0) as number,
     z: 'z'.codePointAt(0) as number,
     Z: 'Z'.codePointAt(0) as number
+  },
+  boldItalic: {
+    A: '𝑨'.codePointAt(0) as number,
+    a: '𝒂'.codePointAt(0) as number,
+    z: '𝒛'.codePointAt(0) as number,
+    Z: '𝒁'.codePointAt(0) as number
   }
 }

@@ -94,13 +94,17 @@ describe('helpers/string', () => {
       expect(formatNormal('𝘪𝘵𝘢𝘭𝘪𝘤')).toBe('italic')
     })
 
+    it('should return bold-italic to normal text', () => {
+      expect(formatNormal('𝒇𝒐𝒐')).toBe('foo')
+    })
+
     it('should return normal to normal text', () => {
       expect(formatNormal('bar')).toBe('bar')
     })
 
-    it('should return italic + bold + normal to normal text', () => {
-      expect(formatNormal('𝘪𝘵𝘢𝘭𝘪𝘤 + 𝐛𝐨𝐥𝐝 + normal')).toBe(
-        'italic + bold + normal'
+    it('should return italic + bold + bold-italic + normal to normal text', () => {
+      expect(formatNormal('𝘪𝘵𝘢𝘭𝘪𝘤 + 𝐛𝐨𝐥𝐝 + 𝒃𝒐𝒍𝒅-𝒊𝒕𝒂𝒍𝒊𝒄 + normal')).toBe(
+        'italic + bold + bold-italic + normal'
       )
     })
   })
