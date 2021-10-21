@@ -24,7 +24,12 @@ const Italic = (props: ItalicProps): React.ReactElement => {
   }
 
   return (
-    <Button type="button" onClick={handleClick} isSelected={isTextIsItalic}>
+    <Button
+      aria-label="Italic"
+      type="button"
+      onClick={handleClick}
+      isSelected={isTextIsItalic}
+    >
       <FontAwesomeIcon icon={faItalic} />
     </Button>
   )

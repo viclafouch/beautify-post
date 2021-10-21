@@ -1,5 +1,8 @@
 import { getContainerElement, matchIsPopupOpened } from '@helpers/linkedin-dom'
-import { initTootlip } from './create-tooltip'
+import {
+  subscribeSelectionChange,
+  unsubscribeSelectionChange
+} from './create-tooltip'
 
 function createObserver() {
   let isPopupOpen = false
@@ -8,9 +11,10 @@ function createObserver() {
     const onObserveMutation = () => {
       if (!isPopupOpen && matchIsPopupOpened()) {
         isPopupOpen = true
-        initTootlip()
-      } else if (isPopupOpen) {
+        subscribeSelectionChange()
+      } else if (isPopupOpen && !matchIsPopupOpened()) {
         isPopupOpen = false
+        unsubscribeSelectionChange()
       }
     }
 

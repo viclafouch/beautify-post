@@ -10,12 +10,15 @@ type TooltipProps = {
   close?: () => void
   selection: Selection
   onFormat: () => void
-  onClickOutside: () => void
+  clearTooltip: () => void
 }
 
 const Tooltip = (props: TooltipProps): React.ReactElement => {
-  const { selection, onFormat, onClickOutside } = props
-  const ref = useDetectClickOutside({ onTriggered: onClickOutside })
+  const { selection, onFormat, clearTooltip } = props
+  const ref = useDetectClickOutside({
+    onTriggered: clearTooltip,
+    allowAnyKey: true
+  })
 
   const formatText = (newText: string) => {
     replaceSelectedText(selection, newText)
@@ -23,7 +26,7 @@ const Tooltip = (props: TooltipProps): React.ReactElement => {
   }
 
   return (
-    <Styled ref={ref} id="linkedin-formatter-tooltip">
+    <Styled ref={ref}>
       <Bold selection={selection} formatText={formatText} />
       <Italic selection={selection} formatText={formatText} />
       <Clean selection={selection} formatText={formatText} />

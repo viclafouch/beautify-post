@@ -11,7 +11,13 @@ type ButtonProps = React.DetailedHTMLProps<
 const Button = (props: ButtonProps): React.ReactElement => {
   const { children, isSelected, ...rest } = props
   return (
-    <Styled $isSelected={Boolean(isSelected)} {...rest}>
+    <Styled
+      type="button"
+      tabIndex={-1}
+      aria-pressed={Boolean(isSelected)}
+      $isSelected={Boolean(isSelected)}
+      {...rest}
+    >
       {children}
     </Styled>
   )

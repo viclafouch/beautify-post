@@ -22,7 +22,7 @@ const Clean = (props: CleanProps): React.ReactElement => {
   }
 
   return (
-    <Button type="button" onClick={handleClick}>
+    <Button aria-label="Clean" type="button" onClick={handleClick}>
       <FontAwesomeIcon icon={faRemoveFormat} />
     </Button>
   )

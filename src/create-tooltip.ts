@@ -20,14 +20,28 @@ function getTooltipClassName(domRect: DOMRect): string {
   `
 }
 
+function getNewContainerElement(): HTMLDivElement {
+  const container = document.createElement('div')
+  container.id = 'linkedin-formatter-tooltip'
+  container.setAttribute('role', 'tooltip')
+  return container
+}
+
 function createTooltipOnBody(selection: Selection) {
   const range = selection.getRangeAt(0)
   const domRect = range.getBoundingClientRect()
-  const container = document.createElement('div')
-  container.id = 'linkedin-formatter-tooltip'
+  const container = getNewContainerElement()
   container.classList.add(getTooltipClassName(domRect))
   document.body.appendChild(container)
-  buildAppOnContainer({ selection }, container)
+
+  function handleResize() {
+    const domRect = range.getBoundingClientRect()
+    container.classList.add(getTooltipClassName(domRect))
+  }
+  window.addEventListener('resize', handleResize)
+  buildAppOnContainer({ selection }, container, () => {
+    window.removeEventListener('resize', handleResize)
+  })
 }
 
 function handleSelectText() {
@@ -41,8 +55,14 @@ function handleSelectText() {
   createTooltipOnBody(selection)
 }
 
-function initTootlip() {
-  document.addEventListener('selectionchange', debounce(handleSelectText, 250))
+const handleSelectDebounced = debounce(handleSelectText, 250)
+
+function subscribeSelectionChange() {
+  document.addEventListener('selectionchange', handleSelectDebounced)
 }
 
-export { initTootlip }
+function unsubscribeSelectionChange() {
+  document.removeEventListener('selectionchange', handleSelectDebounced)
+}
+
+export { subscribeSelectionChange, unsubscribeSelectionChange }

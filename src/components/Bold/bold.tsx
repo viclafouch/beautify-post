@@ -24,7 +24,12 @@ const Bold = (props: BoldProps): React.ReactElement => {
   }
 
   return (
-    <Button type="button" onClick={handleClick} isSelected={isTextIsBold}>
+    <Button
+      aria-label="Bold"
+      type="button"
+      onClick={handleClick}
+      isSelected={isTextIsBold}
+    >
       <FontAwesomeIcon icon={faBold} />
     </Button>
   )

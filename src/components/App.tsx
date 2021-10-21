@@ -14,19 +14,25 @@ function clearAppContainer(container: Element) {
   previousContainer = null
 }
 
-function buildAppOnContainer(initialProps: InitialProps, container: Element) {
+function buildAppOnContainer(
+  initialProps: InitialProps,
+  container: Element,
+  onClear?: () => void
+) {
   if (previousContainer) {
     clearAppContainer(previousContainer)
+    onClear?.()
   }
 
   const clearCurrentAppContainer = () => {
     clearAppContainer(container as Element)
+    onClear?.()
   }
 
   ReactDOM.render(
     <Tooltip
       {...initialProps}
-      onClickOutside={clearCurrentAppContainer}
+      clearTooltip={clearCurrentAppContainer}
       onFormat={clearCurrentAppContainer}
     />,
     container
