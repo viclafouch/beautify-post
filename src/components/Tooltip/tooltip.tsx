@@ -16,8 +16,7 @@ type TooltipProps = {
 const Tooltip = (props: TooltipProps): React.ReactElement => {
   const { selection, onFormat, clearTooltip } = props
   const ref = useDetectClickOutside({
-    onTriggered: clearTooltip,
-    allowAnyKey: true
+    onTriggered: clearTooltip
   })
 
   const formatText = (newText: string) => {

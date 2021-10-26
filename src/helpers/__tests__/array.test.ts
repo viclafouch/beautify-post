@@ -1,4 +1,4 @@
-import { splitTextInArray } from '@helpers/array'
+import { matchIsLastArrayItem, splitTextInArray } from '@helpers/array'
 
 describe('helpers/array', () => {
   describe('splitTextInArray', () => {
@@ -20,6 +20,20 @@ describe('helpers/array', () => {
 
     it('should return an array of italic letters', () => {
       expect(splitTextInArray('𝘈𝘭𝘪𝘤𝘦')).toStrictEqual(['𝘈', '𝘭', '𝘪', '𝘤', '𝘦'])
+    })
+  })
+
+  describe('matchIsLastArrayItem', () => {
+    it('should return a boolean', () => {
+      expect(matchIsLastArrayItem(1, [])).toBeBoolean()
+    })
+
+    it('should return true for a last item', () => {
+      expect(matchIsLastArrayItem(3, [0, 1, 2, 3])).toBeTrue()
+    })
+
+    it('should return false for a non last item', () => {
+      expect(matchIsLastArrayItem('foo', [0, 1, 2, 3])).toBeFalse()
     })
   })
 })
