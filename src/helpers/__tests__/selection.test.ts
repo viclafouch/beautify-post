@@ -1,8 +1,9 @@
-import { replaceSelectedText } from '@helpers/selection'
+import { FormatType } from '@constants/format-type'
+import { formatSelectionByType } from '@helpers/selection'
 import { appendTextToBody, cleanDocument, createSelection } from './utils'
 
 describe('helpers/selection', () => {
-  describe('replaceSelectedText', () => {
+  describe('formatSelectionByType', () => {
     afterEach(() => {
       cleanDocument()
     })
@@ -12,8 +13,8 @@ describe('helpers/selection', () => {
       const selectedText = document.createTextNode('text that will be replaced')
       nodeContents.appendChild(selectedText)
       const selection = createSelection(selectedText)
-      replaceSelectedText(selection, 'bar')
-      expect(nodeContents.textContent).toBe('foobar')
+      formatSelectionByType(selection, FormatType.bold)
+      expect(nodeContents.textContent).toBe('foo𝐭𝐞𝐱𝐭 𝐭𝐡𝐚𝐭 𝐰𝐢𝐥𝐥 𝐛𝐞 𝐫𝐞𝐩𝐥𝐚𝐜𝐞𝐝')
     })
 
     it('should replace the selected content with bold text', () => {
@@ -24,20 +25,17 @@ describe('helpers/selection', () => {
       nodeContents.appendChild(endText)
       expect(nodeContents.textContent).toBe('fooAlicebar')
       const selection = createSelection(selectedText)
-      replaceSelectedText(selection, '𝐀𝐥𝐢𝐜𝐞')
+      formatSelectionByType(selection, FormatType.bold)
       expect(nodeContents.textContent).toBe('foo𝐀𝐥𝐢𝐜𝐞bar')
     })
 
     it('should replace the selected content with italic text', () => {
       const nodeContents = appendTextToBody('foo')
       const selectedText = document.createTextNode('text that will be replaced')
-      const endText = document.createTextNode('bar')
       nodeContents.appendChild(selectedText)
-      nodeContents.appendChild(endText)
-      expect(nodeContents.textContent).toBe('footext that will be replacedbar')
       const selection = createSelection(selectedText)
-      replaceSelectedText(selection, '𝘈𝘭𝘪𝘤𝘦')
-      expect(nodeContents.textContent).toBe('foo𝘈𝘭𝘪𝘤𝘦bar')
+      formatSelectionByType(selection, FormatType.italic)
+      expect(nodeContents.textContent).toBe('foo𝘵𝘦𝘹𝘵 𝘵𝘩𝘢𝘵 𝘸𝘪𝘭𝘭 𝘣𝘦 𝘳𝘦𝘱𝘭𝘢𝘤𝘦𝘥')
     })
   })
 })

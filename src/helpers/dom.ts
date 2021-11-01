@@ -7,10 +7,6 @@ export function matchIsClickInside(
   return elementClicked instanceof Node && container.contains(elementClicked)
 }
 
-export function matchAreNodeDifferents(nodeA: Node, nodeB: Node) {
-  return nodeA !== nodeB
-}
-
 export function matchHaveSameParentElement(...nodes: Node[]): boolean {
   return nodes.every((node, index) => {
     if (matchIsLastArrayItem(node, nodes)) {
@@ -21,10 +17,10 @@ export function matchHaveSameParentElement(...nodes: Node[]): boolean {
   })
 }
 
-export function getAllNodeNamesBetweenChildren(
+export function getSiblingsBetweenElements(
   childrenA: Node,
   childrenB: Node
-): string[] {
+): Node[] {
   if (childrenA === childrenB) {
     return []
   }
@@ -37,7 +33,7 @@ export function getAllNodeNamesBetweenChildren(
     currentElement?.nextSibling &&
     currentElement.nextSibling !== childrenB
   ) {
-    result.push(currentElement.nextSibling.nodeName)
+    result.push(currentElement.nextSibling)
     currentElement = currentElement.nextSibling
   }
   return result

@@ -115,10 +115,9 @@ describe('helpers/string', () => {
     describe('formatTextByType/bold', () => {
       test.each([
         { text: 'Alice & Bob', expected: '𝐀𝐥𝐢𝐜𝐞 & 𝐁𝐨𝐛' },
-        { text: '𝐀𝐥𝐢𝐜𝐞 & 𝐁𝐨𝐛', expected: 'Alice & Bob' },
         { text: '𝘏𝘦𝘭𝘭𝘰 𝘸𝘰𝘳𝘭𝘥', expected: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅' },
-        { text: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅', expected: '𝘏𝘦𝘭𝘭𝘰 𝘸𝘰𝘳𝘭𝘥' },
-        { text: 'Apple 𝘫𝘶𝘪𝘤𝘦', expected: '𝐀𝐩𝐩𝐥𝐞 𝒋𝒖𝒊𝒄𝒆' }
+        { text: 'Apple 𝘫𝘶𝘪𝘤𝘦', expected: '𝐀𝐩𝐩𝐥𝐞 𝒋𝒖𝒊𝒄𝒆' },
+        { text: '𝐛𝐨𝐥𝐝', expected: '𝐛𝐨𝐥𝐝' }
       ])("should transform '$text' into '$expected'", ({ text, expected }) => {
         expect(formatTextByType(text, FormatType.bold)).toBe(expected)
       })
@@ -127,12 +126,25 @@ describe('helpers/string', () => {
     describe('formatTextByType/italic', () => {
       test.each([
         { text: 'Alice & Bob', expected: '𝘈𝘭𝘪𝘤𝘦 & 𝘉𝘰𝘣' },
-        { text: '𝘈𝘭𝘪𝘤𝘦 & 𝘉𝘰𝘣', expected: 'Alice & Bob' },
         { text: '𝐇𝐞𝐥𝐥𝐨 𝐰𝐨𝐫𝐥𝐝', expected: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅' },
-        { text: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅', expected: '𝐇𝐞𝐥𝐥𝐨 𝐰𝐨𝐫𝐥𝐝' },
-        { text: 'LinkedIn 𝐓𝐞𝐱𝐭', expected: '𝘓𝘪𝘯𝘬𝘦𝘥𝘐𝘯 𝑻𝒆𝒙𝒕' }
+        { text: 'LinkedIn 𝐓𝐞𝐱𝐭', expected: '𝘓𝘪𝘯𝘬𝘦𝘥𝘐𝘯 𝑻𝒆𝒙𝒕' },
+        { text: '𝘪𝘵𝘢𝘭𝘪𝘤', expected: '𝘪𝘵𝘢𝘭𝘪𝘤' }
       ])("should transform '$text' into '$expected'", ({ text, expected }) => {
         expect(formatTextByType(text, FormatType.italic)).toBe(expected)
+      })
+    })
+
+    describe('formatTextByType/normal', () => {
+      test.each([
+        { text: '𝘪𝘵𝘢𝘭𝘪𝘤', expected: 'italic' },
+        { text: 'B𝐨𝐥𝐝', expected: 'Bold' },
+        { text: '𝒃𝒐𝒍𝒅 𝒊𝒕𝒂𝒍𝒊𝒄', expected: 'bold italic' },
+        {
+          text: '𝐛𝐨𝐥𝐝 𝘪𝘵𝘢𝘭𝘪𝘤 𝒃𝒐𝒍𝒅𝒊𝒕𝒂𝒍𝒊𝒄 normal',
+          expected: 'bold italic bolditalic normal'
+        }
+      ])("should transform '$text' into '$expected'", ({ text, expected }) => {
+        expect(formatTextByType(text, FormatType.normal)).toBe(expected)
       })
     })
   })

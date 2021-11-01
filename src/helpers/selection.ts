@@ -1,42 +1,85 @@
-export function replaceSelectedText(selection: Selection, text: string) {
-  if (selection.rangeCount) {
-    const range = selection.getRangeAt(0)
-    const { startOffset, startContainer, endContainer } = range
-    const startNodeValue = startContainer.nodeValue || ''
-    if (startContainer === endContainer) {
-      range.endContainer.nodeValue =
-        startNodeValue.substring(0, startOffset) +
-        text +
-        startNodeValue.substring(range.endOffset)
-      range.setStart(range.startContainer, startOffset)
-      range.setEnd(range.endContainer, startOffset + text.length)
-    }
-    selection.removeAllRanges()
-    selection.addRange(range)
-  }
-}
+import { matchIsTextIsItalic, removeItalicFromText } from '@helpers/italic'
+import { formatTextByType } from '@helpers/string'
+import { matchIsTextIsBoldItalic } from '@helpers/bold-italic'
+import { getSiblingsBetweenElements } from '@helpers/dom'
+import { matchIsTextIsBold, removeBoldFromText } from '@helpers/bold'
+import { FormatType } from '@constants/format-type'
 
 export function getSelectionText(selection: Selection): string {
   return selection.toString().trim()
 }
 
-export function getCorrectSelectionBreaklines(selection: Selection): string {
-  const text = selection.toString().split('\n')
+function formatPortionOfSelection(
+  allSelectedText: string,
+  portionText: string,
+  type: FormatType
+): string {
+  if (
+    type === FormatType.italic &&
+    (matchIsTextIsBoldItalic(allSelectedText) ||
+      matchIsTextIsItalic(allSelectedText))
+  ) {
+    return removeItalicFromText(portionText)
+  }
+  if (
+    type === FormatType.bold &&
+    (matchIsTextIsBoldItalic(allSelectedText) ||
+      matchIsTextIsBold(allSelectedText))
+  ) {
+    return removeBoldFromText(portionText)
+  }
+  return formatTextByType(portionText, type)
+}
 
-  return text
-    .filter((line, index) => {
-      const previousLine = text[index - 1] || ''
-      const nextLine = text[index + 1] || ''
-      const isLineEmpty = line.trim() === ''
-      const isPrevLineEmpty = previousLine.trim() !== ''
-      const isNextLineEmpty = nextLine.trim() !== ''
-      if (index > 0 && isLineEmpty && isPrevLineEmpty) {
-        return false
-      }
-      if (index < text.length - 1 && isLineEmpty && isNextLineEmpty) {
-        return false
-      }
-      return true
-    })
-    .join('\n')
+export function formatSelectionByType(
+  selection: Selection,
+  formatType: FormatType
+) {
+  const range = selection.getRangeAt(0)
+  const { startOffset, endOffset, startContainer, endContainer } = range
+  const startNodeValue = startContainer.nodeValue || ''
+  const endNodeValue = endContainer.nodeValue || ''
+  const currentSelectedText = getSelectionText(selection)
+
+  if (startContainer === endContainer) {
+    startContainer.nodeValue =
+      startNodeValue.substring(0, startOffset) +
+      formatPortionOfSelection(
+        currentSelectedText,
+        currentSelectedText,
+        formatType
+      ) +
+      startNodeValue.substring(endOffset)
+  } else {
+    // first line
+    startContainer.nodeValue =
+      startNodeValue.substring(0, startOffset) +
+      formatPortionOfSelection(
+        currentSelectedText,
+        startNodeValue.substring(startOffset),
+        formatType
+      )
+
+    const startP = startContainer.parentElement as HTMLParagraphElement
+    const endP = endContainer.parentElement as HTMLParagraphElement
+    const allNextSiblings = getSiblingsBetweenElements(startP, endP)
+
+    for (const sibling of allNextSiblings) {
+      const textPortion = sibling.textContent || ''
+      sibling.textContent = formatPortionOfSelection(
+        currentSelectedText,
+        textPortion,
+        formatType
+      )
+    }
+
+    // end first line
+    endContainer.nodeValue =
+      formatPortionOfSelection(
+        currentSelectedText,
+        endNodeValue.substring(0, endOffset),
+        formatType
+      ) + endNodeValue.substring(endOffset)
+  }
+  selection.removeAllRanges()
 }

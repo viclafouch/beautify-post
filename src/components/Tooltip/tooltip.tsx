@@ -3,7 +3,6 @@ import Bold from '@components/Bold/bold'
 import Styled from './tooltip.styled'
 import Italic from '@components/Italic/italic'
 import { useDetectClickOutside } from 'react-detect-click-outside'
-import { replaceSelectedText } from '@helpers/selection'
 import Clean from '@components/Clean/clean'
 
 type TooltipProps = {
@@ -19,16 +18,11 @@ const Tooltip = (props: TooltipProps): React.ReactElement => {
     onTriggered: clearTooltip
   })
 
-  const formatText = (newText: string) => {
-    replaceSelectedText(selection, newText)
-    onFormat()
-  }
-
   return (
     <Styled ref={ref}>
-      <Bold selection={selection} formatText={formatText} />
-      <Italic selection={selection} formatText={formatText} />
-      <Clean selection={selection} formatText={formatText} />
+      <Bold selection={selection} onFormat={onFormat} />
+      <Italic selection={selection} onFormat={onFormat} />
+      <Clean selection={selection} onFormat={onFormat} />
     </Styled>
   )
 }

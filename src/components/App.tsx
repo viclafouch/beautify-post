@@ -4,8 +4,7 @@ import {
   matchIsKeyboardEventItalic
 } from '@helpers/keyboard'
 import { css } from '@emotion/css'
-import { replaceSelectedText } from '@helpers/selection'
-import { formatTextByType } from '@helpers/string'
+import { formatSelectionByType } from '@helpers/selection'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Tooltip from './Tooltip/tooltip'
@@ -47,17 +46,11 @@ const handleKeyDown = (event: KeyboardEvent) => {
   }
   if (matchIsKeyboardEventBold(event) && currentSelection) {
     event.stopPropagation()
-    replaceSelectedText(
-      currentSelection,
-      formatTextByType(currentSelection.toString(), FormatType.bold)
-    )
+    formatSelectionByType(currentSelection, FormatType.bold)
     return clearCurrentAppContainer()
   } else if (matchIsKeyboardEventItalic(event) && currentSelection) {
     event.stopPropagation()
-    replaceSelectedText(
-      currentSelection,
-      formatTextByType(currentSelection.toString(), FormatType.italic)
-    )
+    formatSelectionByType(currentSelection, FormatType.italic)
     return clearCurrentAppContainer()
   }
 }

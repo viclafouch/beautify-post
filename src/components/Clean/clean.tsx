@@ -2,23 +2,23 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRemoveFormat } from '@fortawesome/free-solid-svg-icons'
 import Button from '@components/Button/button'
-import { formatNormal } from '@helpers/string'
+import { formatSelectionByType } from '@helpers/selection'
+import { FormatType } from '@constants/format-type'
 
 type CleanProps = {
   selection: Selection
-  formatText: (newText: string) => void
+  onFormat: () => void
 }
 
 const Clean = (props: CleanProps): React.ReactElement => {
-  const { selection, formatText } = props
-  const currentText = selection.toString()
+  const { selection, onFormat } = props
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault()
-    const normalText = formatNormal(currentText)
-    formatText(normalText)
+    formatSelectionByType(selection, FormatType.normal)
+    onFormat()
   }
 
   return (

@@ -3,16 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faItalic } from '@fortawesome/free-solid-svg-icons'
 import Button from '@components/Button/button'
 import { matchIsTextIsItalic } from '@helpers/italic'
-import { formatTextByType } from '@helpers/string'
 import { FormatType } from '@constants/format-type'
+import { formatSelectionByType } from '@helpers/selection'
 
 type ItalicProps = {
   selection: Selection
-  formatText: (newText: string) => void
+  onFormat: () => void
 }
 
 const Italic = (props: ItalicProps): React.ReactElement => {
-  const { selection, formatText } = props
+  const { selection, onFormat } = props
   const currentText = selection.toString()
   const isTextIsItalic = matchIsTextIsItalic(currentText)
 
@@ -20,7 +20,8 @@ const Italic = (props: ItalicProps): React.ReactElement => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault()
-    formatText(formatTextByType(currentText, FormatType.italic))
+    formatSelectionByType(selection, FormatType.italic)
+    onFormat()
   }
 
   return (

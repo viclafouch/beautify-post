@@ -3,16 +3,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBold } from '@fortawesome/free-solid-svg-icons'
 import Button from '@components/Button/button'
 import { matchIsTextIsBold } from '@helpers/bold'
-import { formatTextByType } from '@helpers/string'
 import { FormatType } from '@constants/format-type'
+import { formatSelectionByType } from '@helpers/selection'
 
 type BoldProps = {
   selection: Selection
-  formatText: (newText: string) => void
+  onFormat: () => void
 }
 
 const Bold = (props: BoldProps): React.ReactElement => {
-  const { selection, formatText } = props
+  const { selection, onFormat } = props
   const currentText = selection.toString()
   const isTextIsBold = matchIsTextIsBold(currentText)
 
@@ -20,7 +20,8 @@ const Bold = (props: BoldProps): React.ReactElement => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault()
-    formatText(formatTextByType(currentText, FormatType.bold))
+    formatSelectionByType(selection, FormatType.bold)
+    onFormat()
   }
 
   return (
