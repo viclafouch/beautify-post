@@ -1,1 +1,1 @@
-export default ['chrome', 'firefox']
+module.exports = ['chrome', 'firefox']

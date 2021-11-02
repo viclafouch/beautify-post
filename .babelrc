@@ -1,7 +1,15 @@
 {
   "presets": [
     "@babel/preset-typescript",
-    "@emotion/babel-preset-css-prop"
+    "@emotion/babel-preset-css-prop",
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "browsers": ["last 2 Chrome versions", "last 2 Firefox versions"]
+        }
+      }
+    ]
   ],
   "plugins": ["@emotion"]
 }

@@ -1,15 +1,19 @@
+// eslint-disable-next-line no-undef
 module.exports = {
+  root: true,
   extends: [
+    'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:jest/recommended',
     'plugin:jest-formatting/recommended'
   ],
-  plugins: ['jest'],
+  plugins: ['@typescript-eslint', 'jest'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2020,
-    sourceType: 'module'
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: './tsconfig.json'
   },
   rules: {
     '@typescript-eslint/ban-ts-comment': 'off',

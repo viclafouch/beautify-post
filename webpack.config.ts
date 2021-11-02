@@ -1,9 +1,11 @@
 import webpack from 'webpack'
 import CopyPlugin from 'copy-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import browsers from './browsers'
 import * as path from 'path'
 import open from 'open'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const browsers = require('./browsers')
 
 // UNCOMMENT ME TO ANALYSE BUNDLE
 // import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
