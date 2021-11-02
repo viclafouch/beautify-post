@@ -5,6 +5,10 @@ import { getSiblingsBetweenElements } from '@helpers/dom'
 import { matchIsTextIsBold, removeBoldFromText } from '@helpers/bold'
 import { FormatType } from '@constants/format-type'
 
+export function getDocumentSelection(): Selection | null {
+  return document.getSelection()
+}
+
 export function getSelectionText(selection: Selection): string {
   return selection.toString().trim()
 }
@@ -82,4 +86,54 @@ export function formatSelectionByType(
       ) + endNodeValue.substring(endOffset)
   }
   selection.removeAllRanges()
+}
+
+export type SubscriptionSelection = {
+  unsubscribe: () => void
+}
+
+export function subscribeDocumentSelection(
+  callback: (selection: Selection | null) => void
+): SubscriptionSelection {
+  let isSelecting = false
+  let currentSelection: Selection | null = null
+
+  function handleSelectStart(): void {
+    isSelecting = true
+  }
+
+  function handleMouseUp(): void {
+    const selection = getDocumentSelection()
+    if (isSelecting && selection) {
+      currentSelection = selection
+      callback(currentSelection)
+      isSelecting = false
+    }
+  }
+
+  function handleSelectionChange(): void {
+    const selection = getDocumentSelection()
+    if (selection && currentSelection) {
+      currentSelection = null
+      callback(currentSelection)
+    }
+  }
+
+  function unsubscribe(): void {
+    document.removeEventListener('selectstart', handleSelectStart)
+    document.removeEventListener('mouseup', handleMouseUp)
+    document.removeEventListener('selectionchange', handleSelectionChange)
+  }
+
+  function subscribe(): void {
+    document.addEventListener('selectstart', handleSelectStart)
+    document.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('selectionchange', handleSelectionChange)
+  }
+
+  subscribe()
+
+  return {
+    unsubscribe
+  }
 }

@@ -9,20 +9,33 @@ export function getTextEditorElement(): Element | null {
   return document.querySelector(POPUP.textEditor)
 }
 
-export function matchIsPopupOpened() {
+export function matchIsPopupOpened(): boolean {
   const container = getContainerElement()
   const formElement = getTextEditorElement()
-  return formElement && container?.contains(formElement)
+  return formElement !== null && Boolean(container?.contains(formElement))
+}
+
+export function matchIsMentionElement(element: Node): boolean {
+  return element.nodeName === 'A' || element.parentElement?.nodeName === 'A'
+}
+
+export function matchIsHashtagElement(element: Node): boolean {
+  return (
+    element.nodeName === 'STRONG' ||
+    element.parentElement?.nodeName === 'STRONG'
+  )
 }
 
 export function matchIsValidSelection(selection: Selection) {
-  const range = selection.getRangeAt(0)
-  const siblings = getSiblingsBetweenElements(
-    range.startContainer,
-    range.endContainer
-  )
+  const { startContainer, endContainer } = selection.getRangeAt(0)
+  const hasSelectMentionElement =
+    matchIsMentionElement(startContainer) || matchIsMentionElement(endContainer)
+  if (hasSelectMentionElement) {
+    return false
+  }
+  const siblings = getSiblingsBetweenElements(startContainer, endContainer)
   return siblings.every(sibling => {
-    return sibling.nodeName !== 'STRONG' && sibling.nodeName !== 'A'
+    return !matchIsMentionElement(sibling) && !matchIsHashtagElement(sibling)
   })
 }
 

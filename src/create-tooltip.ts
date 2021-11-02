@@ -1,10 +1,13 @@
-import { debounce } from '@helpers/debounce'
 import { buildAppOnContainer } from '@components/App'
 import { matchIsTextEmpty } from '@helpers/string'
 import {
   matchIsTextEditorContainsSelection,
   matchIsValidSelection
 } from '@helpers/linkedin-dom'
+import {
+  subscribeDocumentSelection,
+  SubscriptionSelection
+} from '@helpers/selection'
 
 function getNewContainerElement(): HTMLDivElement {
   const container = document.createElement('div')
@@ -13,37 +16,26 @@ function getNewContainerElement(): HTMLDivElement {
   return container
 }
 
-function createTooltipOnBody(selection: Selection) {
+function createTooltipOnBody(selection: Selection): void {
   const container = getNewContainerElement()
   document.body.appendChild(container)
   buildAppOnContainer({ selection }, container)
 }
 
-function handleSelectText() {
-  const selection = document.getSelection()
-  if (!selection?.rangeCount || matchIsTextEmpty(selection.toString())) {
-    return
-  }
+export function subscribeSelectionChange(): SubscriptionSelection {
+  return subscribeDocumentSelection((selection: Selection | null) => {
+    if (!selection?.rangeCount || matchIsTextEmpty(selection.toString())) {
+      return
+    }
 
-  if (!matchIsTextEditorContainsSelection(selection)) {
-    return
-  }
+    if (!matchIsTextEditorContainsSelection(selection)) {
+      return
+    }
 
-  if (!matchIsValidSelection(selection)) {
-    return
-  }
+    if (!matchIsValidSelection(selection)) {
+      return
+    }
 
-  createTooltipOnBody(selection)
+    createTooltipOnBody(selection)
+  })
 }
-
-const handleSelectDebounced = debounce(handleSelectText, 250)
-
-function subscribeSelectionChange() {
-  document.addEventListener('selectionchange', handleSelectDebounced)
-}
-
-function unsubscribeSelectionChange() {
-  document.removeEventListener('selectionchange', handleSelectDebounced)
-}
-
-export { subscribeSelectionChange, unsubscribeSelectionChange }
