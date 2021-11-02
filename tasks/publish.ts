@@ -32,7 +32,7 @@ async function removeFiles(directory: string): Promise<void> {
   await Promise.all(unlinkPromises)
 }
 
-async function publish() {
+async function publish(): Promise<void> {
   try {
     console.info(`\x1b[1;32m${appName}@${appVersion}\x1b[m`)
     browsers.forEach(async (browser: string) => {

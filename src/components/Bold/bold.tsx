@@ -18,7 +18,7 @@ const Bold = (props: BoldProps): React.ReactElement => {
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  ): void => {
     event.preventDefault()
     formatSelectionByType(selection, FormatType.bold)
     onFormat()

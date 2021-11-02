@@ -3,7 +3,7 @@ import { matchIsLastArrayItem } from './array'
 export function matchIsClickInside(
   container: Element,
   elementClicked: EventTarget | null
-) {
+): boolean {
   return elementClicked instanceof Node && container.contains(elementClicked)
 }
 

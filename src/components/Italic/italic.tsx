@@ -18,7 +18,7 @@ const Italic = (props: ItalicProps): React.ReactElement => {
 
   const handleClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  ): void => {
     event.preventDefault()
     formatSelectionByType(selection, FormatType.italic)
     onFormat()

@@ -32,7 +32,7 @@ function getTooltipClassName(domRect: DOMRect): string {
 let currentContainer: null | Element = null
 let currentSelection: null | Selection = null
 
-function handleResize() {
+function handleResize(): void {
   if (currentSelection && currentContainer) {
     const range = currentSelection.getRangeAt(0)
     const domRect = range.getBoundingClientRect()
@@ -40,7 +40,7 @@ function handleResize() {
   }
 }
 
-const handleKeyDown = (event: KeyboardEvent) => {
+const handleKeyDown = (event: KeyboardEvent): void => {
   if (!event.metaKey && !event.ctrlKey) {
     return clearCurrentAppContainer()
   }
@@ -55,7 +55,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
   }
 }
 
-export function clearCurrentAppContainer() {
+export function clearCurrentAppContainer(): void {
   if (currentContainer) {
     ReactDOM.unmountComponentAtNode(currentContainer)
     currentContainer.remove()
@@ -69,7 +69,7 @@ export function clearCurrentAppContainer() {
 export function buildAppOnContainer(
   initialProps: InitialProps,
   container: Element
-) {
+): void {
   const { selection, ...props } = initialProps
 
   if (currentContainer) {

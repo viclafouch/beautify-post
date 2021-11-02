@@ -6,7 +6,9 @@ type StyledProps = {
 
 const Styled = styled.button<StyledProps>`
   height: 34px;
-  background-color: ${props => (props.$isSelected ? '#eff2f5' : '#ffffff')};
+  background-color: ${(props): string => {
+    return props.$isSelected ? '#eff2f5' : '#ffffff'
+  }};
   color: #000000;
   min-width: 24px;
   padding-inline: 5px;

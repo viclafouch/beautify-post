@@ -57,7 +57,7 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
       // UNCOMMENT ME TO ANALYSE BUNDLE
       // new BundleAnalyzerPlugin(),
       {
-        apply: (compiler: webpack.Compiler) => {
+        apply: (compiler: webpack.Compiler): void => {
           compiler.hooks.afterResolvers.tap('open', () => {
             if (IS_DEV) {
               open('https://www.linkedin.com')
@@ -72,7 +72,7 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
             from: path.join(__dirname, 'manifest.json'),
             to: outputPath,
             force: true,
-            transform: function (content) {
+            transform: function (content): Buffer {
               const manifestContent = JSON.parse(content.toString())
               return Buffer.from(
                 JSON.stringify(

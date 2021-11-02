@@ -2,11 +2,11 @@ import { SubscriptionSelection } from '@helpers/selection'
 import { getContainerElement, matchIsPopupOpened } from '@helpers/linkedin-dom'
 import { subscribeSelectionChange } from './create-tooltip'
 
-function createObserver() {
+function createObserver(): void {
   let currentSubscription: SubscriptionSelection | null = null
   const containerElement = getContainerElement()
   if (containerElement) {
-    const onObserveMutation = () => {
+    const onObserveMutation = (): void => {
       if (!currentSubscription && matchIsPopupOpened()) {
         currentSubscription = subscribeSelectionChange()
       } else if (currentSubscription && !matchIsPopupOpened()) {

@@ -67,7 +67,7 @@ export function matchIsTextIsBold(
     : textSplitted.some(matchIsLetterBold)
 }
 
-export function formatNormalLetterToBold(normalLetter: string) {
+export function formatNormalLetterToBold(normalLetter: string): string {
   const unicode = getUnicodeLetter(normalLetter)
   if (!matchIsNumber(unicode) || !matchIsCharacterANormalLetter(normalLetter)) {
     return normalLetter
@@ -79,7 +79,7 @@ export function formatNormalLetterToBold(normalLetter: string) {
   }
 }
 
-export function formatBoldLetterToNormal(boldLetter: string) {
+export function formatBoldLetterToNormal(boldLetter: string): string {
   const unicode = getUnicodeLetter(boldLetter)
   if (!matchIsNumber(unicode) || !matchIsUnicodeBold(unicode)) {
     return boldLetter
@@ -91,7 +91,7 @@ export function formatBoldLetterToNormal(boldLetter: string) {
   }
 }
 
-export function removeBoldFromText(text: string) {
+export function removeBoldFromText(text: string): string {
   const textSplitted = splitTextInArray(text)
   const textSplittedFormatted = textSplitted.map(letter => {
     if (matchIsTextIsBoldItalic(letter)) {

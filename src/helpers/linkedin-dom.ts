@@ -26,7 +26,7 @@ export function matchIsHashtagElement(element: Node): boolean {
   )
 }
 
-export function matchIsValidSelection(selection: Selection) {
+export function matchIsValidSelection(selection: Selection): boolean {
   const { startContainer, endContainer } = selection.getRangeAt(0)
   const hasSelectMentionElement =
     matchIsMentionElement(startContainer) || matchIsMentionElement(endContainer)
@@ -39,7 +39,9 @@ export function matchIsValidSelection(selection: Selection) {
   })
 }
 
-export function matchIsTextEditorContainsSelection(selection: Selection) {
+export function matchIsTextEditorContainsSelection(
+  selection: Selection
+): boolean {
   const textEditor = getTextEditorElement() as HTMLDivElement
   const range = selection.getRangeAt(0)
   return (

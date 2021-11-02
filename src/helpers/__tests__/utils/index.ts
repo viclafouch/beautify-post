@@ -17,7 +17,7 @@ export function createSelection(selectNodeContents: Node): Selection {
 }
 
 // https://stackoverflow.com/questions/42805128/does-jest-reset-the-jsdom-document-after-every-suite-or-test#comment101682049_50800473
-export function cleanDocument() {
+export function cleanDocument(): void {
   document.body.innerHTML = ''
   document.head.innerHTML = ''
 }
@@ -32,7 +32,15 @@ type Credentials = {
   password: string
 }
 
-export async function initLinkedinFeedPage({ email, password }: Credentials) {
+type InitLinkedinFeedPage = {
+  page: puppeteer.Page
+  browser: puppeteer.Browser
+}
+
+export async function initLinkedinFeedPage({
+  email,
+  password
+}: Credentials): Promise<InitLinkedinFeedPage> {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
   try {

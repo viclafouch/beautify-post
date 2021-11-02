@@ -38,7 +38,7 @@ function formatPortionOfSelection(
 export function formatSelectionByType(
   selection: Selection,
   formatType: FormatType
-) {
+): void {
   const range = selection.getRangeAt(0)
   const { startOffset, endOffset, startContainer, endContainer } = range
   const startNodeValue = startContainer.nodeValue || ''
