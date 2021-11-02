@@ -2,6 +2,7 @@
   "name": "LinkedIn Formatter",
   "manifest_version": 3,
   "author": "Victor de la Fouchardiere",
+  "options_page": "options/popup.html",
   "content_scripts": [
     {
       "matches": ["https://www.linkedin.com/*"],

@@ -11,15 +11,14 @@ const browsers = require('./browsers')
 // import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 
 const currentBrowser = process.env.TARGET
+const currentAppVersion = process.env.npm_package_version
 
 if (!currentBrowser || !browsers.includes(currentBrowser)) {
   throw new Error(
     `Please specify the TARGET environment. \n Possible values: ${browsers}`
   )
 } else {
-  console.info(
-    `\x1b[1;32mLinkedIn-Formatter@${process.env.npm_package_version}\x1b[m`
-  )
+  console.info(`\x1b[1;32mLinkedIn-Formatter@${currentAppVersion}\x1b[m`)
   console.info(`\x1b[1;32mBuilding for ${currentBrowser}...\x1b[m`)
 }
 
@@ -78,13 +77,29 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
                 JSON.stringify(
                   {
                     description: process.env.npm_package_description,
-                    version: process.env.npm_package_version,
+                    version: currentAppVersion,
                     ...manifestContent
                   },
                   null,
                   4
                 )
               )
+            }
+          },
+          {
+            from: path.join(__dirname, 'options'),
+            to: path.join(outputPath, 'options'),
+            force: true,
+            transform: function (content, currentPath): Buffer {
+              if (currentPath.endsWith('popup.html')) {
+                let htmlString = content.toString()
+                htmlString = htmlString.replace(
+                  '{{version}}',
+                  String(currentAppVersion)
+                )
+                return Buffer.from(htmlString)
+              }
+              return content
             }
           }
         ]

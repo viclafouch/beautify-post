@@ -1,6 +1,25 @@
 {
   "name": "linkedin-formatter",
   "version": "1.0.0",
+  "description": "Web extension that allows to bold and italicize text on the LinkedIn website.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/viclafouch/linkedin-formatter.git"
+  },
+  "author": "Victor de la Fouchardiere",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/viclafouch/linkedin-formatter/issues"
+  },
+  "keywords": [
+    "extension",
+    "chrome",
+    "firefox",
+    "react",
+    "linkedin",
+    "bold",
+    "italic"
+  ],
   "scripts": {
     "dev": "npm run dev:chrome",
     "dev:chrome": "npx cross-env TARGET=chrome webpack --mode=development",
@@ -10,7 +29,7 @@
     "build:firefox": "npx cross-env TARGET=firefox webpack --mode=production",
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "publish": "ts-node -T tasks/publish.ts",
-    "lint": "tsc --noEmit && eslint .",
+    "lint": "tsc --noEmit && eslint . --ext .js,.ts,.tsx",
     "prepare": "husky install"
   },
   "devDependencies": {
