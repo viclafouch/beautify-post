@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBold } from '@fortawesome/free-solid-svg-icons'
+import { faBold } from '@fortawesome/free-solid-svg-icons/faBold'
 import Button from '@components/Button/button'
 import { matchIsTextIsBold } from '@helpers/bold'
 import { FormatType } from '@constants/format-type'

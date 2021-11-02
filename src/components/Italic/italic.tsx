@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faItalic } from '@fortawesome/free-solid-svg-icons'
+import { faItalic } from '@fortawesome/free-solid-svg-icons/faItalic'
 import Button from '@components/Button/button'
 import { matchIsTextIsItalic } from '@helpers/italic'
 import { FormatType } from '@constants/format-type'

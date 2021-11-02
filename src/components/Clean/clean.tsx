@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRemoveFormat } from '@fortawesome/free-solid-svg-icons'
+import { faRemoveFormat } from '@fortawesome/free-solid-svg-icons/faRemoveFormat'
 import Button from '@components/Button/button'
 import { formatSelectionByType } from '@helpers/selection'
 import { FormatType } from '@constants/format-type'
