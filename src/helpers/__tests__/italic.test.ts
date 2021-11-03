@@ -104,6 +104,10 @@ describe('helpers/italic', () => {
       expect(matchIsTextIsItalic(' \n ')).toBeFalse()
     })
 
+    it('should return false for only ponctuations', () => {
+      expect(matchIsTextIsItalic(',; #@')).toBeFalse()
+    })
+
     it('should return false for a bold text with normal letters', () => {
       expect(matchIsTextIsItalic('𝘈𝘭𝘪𝘤𝘦, Bob & 𝘑𝘦𝘢𝘯')).toBeFalse()
     })
@@ -122,18 +126,6 @@ describe('helpers/italic', () => {
 
     it('should return false for a text with only ponctuations or spaces', () => {
       expect(matchIsTextIsItalic(', @ds§ ()')).toBeFalse()
-    })
-
-    it('should return true for a word in some italic letters (false)', () => {
-      expect(
-        matchIsTextIsItalic('𝘈lice', { checkEveryLetters: false })
-      ).toBeTrue()
-    })
-
-    it('should return false for a word in some italic letters (true)', () => {
-      expect(
-        matchIsTextIsItalic('𝘈lice', { checkEveryLetters: true })
-      ).toBeFalse()
     })
 
     it('should return false for a text bold or italic', () => {

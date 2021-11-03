@@ -5,7 +5,8 @@ import {
   matchIsTextEmpty,
   formatNormal,
   matchIsTextUppercase,
-  formatTextByType
+  formatTextByType,
+  matchIsTextUnknown
 } from '@helpers/string'
 
 describe('helpers/string', () => {
@@ -81,6 +82,28 @@ describe('helpers/string', () => {
     ])('should return false for $char', ({ char }) => {
       expect(matchIsCharacterANormalLetter(char)).toBeFalse()
     })
+  })
+
+  describe('matchIsTextUnknown', () => {
+    it('should return a boolean', () => {
+      expect(matchIsTextUnknown('foo')).toBeBoolean()
+    })
+
+    test.each([
+      { text: 'normal ;' },
+      { text: '#𝐟𝐨𝐨' },
+      { text: '@𝘪𝘵𝘢𝘭𝘪𝘤' },
+      { text: '𝑯𝒆𝒍𝒍𝒐 𝒘𝒐𝒓𝒍𝒅 !' }
+    ])('should return false for $char', ({ text }) => {
+      expect(matchIsTextUnknown(text)).toBeFalse()
+    })
+
+    test.each([{ text: ',' }, { text: '  #@  ' }])(
+      'should return true for $char',
+      ({ text }) => {
+        expect(matchIsTextUnknown(text)).toBeTrue()
+      }
+    )
   })
 
   describe('formatNormal', () => {

@@ -8,7 +8,8 @@ import {
 import {
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
-  matchIsTextUppercase
+  matchIsTextUppercase,
+  matchIsTextUnknown
 } from './string'
 import { matchIsNumber } from './number'
 import { getUnicodeLetter } from './string'
@@ -48,25 +49,12 @@ export function matchIsLetterIsItalic(letter: string): boolean {
   )
 }
 
-type MatchIsTextIsItalicOpts = {
-  checkEveryLetters: boolean
-}
-
-const matchIsTextIsBoldDefaultOpts: MatchIsTextIsItalicOpts = {
-  checkEveryLetters: true
-}
-
-export function matchIsTextIsItalic(
-  text: string,
-  options = matchIsTextIsBoldDefaultOpts
-): boolean {
-  if (matchIsTextEmpty(text)) {
+export function matchIsTextIsItalic(text: string): boolean {
+  if (matchIsTextEmpty(text) || matchIsTextUnknown(text)) {
     return false
   }
   const textSplitted = splitTextInArray(text)
-  return options.checkEveryLetters
-    ? textSplitted.every(matchIsLetterIsItalic)
-    : textSplitted.some(matchIsLetterIsItalic)
+  return textSplitted.every(matchIsLetterIsItalic)
 }
 
 export function formatNormalLetterToItalic(normalLetter: string): string {

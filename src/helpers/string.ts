@@ -1,8 +1,17 @@
+import { matchIsNumber } from './number'
+import { matchIsUnicodeBold } from './bold'
 import { compose } from './compose'
 import { splitTextInArray } from './array'
 import { formatBold, formatBoldLetterToNormal } from './bold'
-import { formatItalic, formatItalicLetterToNormal } from './italic'
-import { formatBoldItalicLetterToNormal } from './bold-italic'
+import {
+  formatItalic,
+  formatItalicLetterToNormal,
+  matchIsUnicodeItalic
+} from './italic'
+import {
+  formatBoldItalicLetterToNormal,
+  matchIsUnicodeBoldItalic
+} from './bold-italic'
 import { FormatType } from '@constants/format-type'
 
 export function getUnicodeLetter(letter: string): undefined | number {
@@ -19,6 +28,20 @@ export function matchIsTextEmpty(text: string): boolean {
 
 export function matchIsCharacterANormalLetter(char: string): boolean {
   return /[a-zA-Z]/.test(char[0])
+}
+
+export function matchIsTextUnknown(text: string): boolean {
+  const textSplitted = splitTextInArray(text)
+  return textSplitted.every(letter => {
+    const unicode = getUnicodeLetter(letter)
+    return (
+      !matchIsNumber(unicode) ||
+      (!matchIsUnicodeBold(unicode) &&
+        !matchIsUnicodeItalic(unicode) &&
+        !matchIsUnicodeBoldItalic(unicode) &&
+        !matchIsCharacterANormalLetter(letter))
+    )
+  })
 }
 
 export function formatNormal(text: string): string {

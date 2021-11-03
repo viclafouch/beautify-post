@@ -103,6 +103,10 @@ describe('helpers/bold-italic', () => {
       expect(matchIsTextIsBoldItalic(' \n ')).toBeFalse()
     })
 
+    it('should return false for only ponctuations', () => {
+      expect(matchIsTextIsBoldItalic(',; #@')).toBeFalse()
+    })
+
     it('should return false for a bold-italic text with normal letters', () => {
       expect(matchIsTextIsBoldItalic('𝑨𝒍𝒊𝒄𝒆, Bob & 𝑱𝒆𝒂𝒏')).toBeFalse()
     })

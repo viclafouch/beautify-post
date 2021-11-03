@@ -3,7 +3,8 @@ import { splitTextInArray } from './array'
 import {
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
-  matchIsTextUppercase
+  matchIsTextUppercase,
+  matchIsTextUnknown
 } from './string'
 import {
   formatItalicLetterToNormal,
@@ -46,25 +47,12 @@ function matchIsLetterBold(letter: string): boolean {
   )
 }
 
-type MatchIsTextIsBoldOpts = {
-  checkEveryLetters: boolean
-}
-
-const matchIsTextIsBoldDefaultOpts: MatchIsTextIsBoldOpts = {
-  checkEveryLetters: true
-}
-
-export function matchIsTextIsBold(
-  text: string,
-  options = matchIsTextIsBoldDefaultOpts
-): boolean {
-  if (matchIsTextEmpty(text)) {
+export function matchIsTextIsBold(text: string): boolean {
+  if (matchIsTextEmpty(text) || matchIsTextUnknown(text)) {
     return false
   }
   const textSplitted = splitTextInArray(text)
-  return options.checkEveryLetters
-    ? textSplitted.every(matchIsLetterBold)
-    : textSplitted.some(matchIsLetterBold)
+  return textSplitted.every(matchIsLetterBold)
 }
 
 export function formatNormalLetterToBold(normalLetter: string): string {

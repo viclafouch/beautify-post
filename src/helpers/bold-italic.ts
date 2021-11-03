@@ -3,7 +3,8 @@ import { splitTextInArray } from './array'
 import {
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
-  matchIsTextUppercase
+  matchIsTextUppercase,
+  matchIsTextUnknown
 } from './string'
 import { matchIsNumber } from './number'
 import { getUnicodeLetter } from './string'
@@ -39,25 +40,12 @@ export function matchIsLetterBoldItalic(letter: string): boolean {
   )
 }
 
-type MatchIsTextIsBoldItalicOpts = {
-  checkEveryLetters: boolean
-}
-
-const matchIsTextIsBoldItalicDefaultOpts: MatchIsTextIsBoldItalicOpts = {
-  checkEveryLetters: true
-}
-
-export function matchIsTextIsBoldItalic(
-  text: string,
-  options = matchIsTextIsBoldItalicDefaultOpts
-): boolean {
-  if (matchIsTextEmpty(text)) {
+export function matchIsTextIsBoldItalic(text: string): boolean {
+  if (matchIsTextEmpty(text) || matchIsTextUnknown(text)) {
     return false
   }
   const textSplitted = splitTextInArray(text)
-  return options.checkEveryLetters
-    ? textSplitted.every(matchIsLetterBoldItalic)
-    : textSplitted.some(matchIsLetterBoldItalic)
+  return textSplitted.every(matchIsLetterBoldItalic)
 }
 
 export function formatNormalLetterToBoldItalic(normalLetter: string): string {

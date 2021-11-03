@@ -96,18 +96,6 @@ describe('helpers/bold', () => {
       expect(matchIsTextIsBold('𝐀𝐥𝐢𝐜𝐞')).toBeTrue()
     })
 
-    it('should return true for a word in some bold letters (false)', () => {
-      expect(
-        matchIsTextIsBold('𝐀lice', { checkEveryLetters: false })
-      ).toBeTrue()
-    })
-
-    it('should return false for a word in some bold letters (true)', () => {
-      expect(
-        matchIsTextIsBold('𝐀lice', { checkEveryLetters: true })
-      ).toBeFalse()
-    })
-
     it('should return true for a simple words in bold with ponctuations', () => {
       expect(matchIsTextIsBold('𝐀𝐥𝐢𝐜𝐞, 𝐁𝐨𝐛 & 𝐉𝐞𝐚𝐧')).toBeTrue()
     })
@@ -134,6 +122,10 @@ describe('helpers/bold', () => {
 
     it('should return false for a text with only ponctuations or spaces', () => {
       expect(matchIsTextIsBold(', @ds§ ()')).toBeFalse()
+    })
+
+    it('should return false for only ponctuations', () => {
+      expect(matchIsTextIsBold(',; #@')).toBeFalse()
     })
 
     it('should return false for a text bold or italic', () => {
