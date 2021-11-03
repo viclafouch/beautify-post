@@ -87,6 +87,10 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
             }
           },
           {
+            from: path.join(__dirname, 'logo/images'),
+            to: outputPath
+          },
+          {
             from: path.join(__dirname, 'options'),
             to: path.join(outputPath, 'options'),
             force: true,

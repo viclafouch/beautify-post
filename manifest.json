@@ -3,6 +3,9 @@
   "manifest_version": 3,
   "author": "Victor de la Fouchardiere",
   "options_page": "options/popup.html",
+  "icons": {
+   "128": "128x128.png"
+  },
   "content_scripts": [
     {
       "matches": ["https://www.linkedin.com/*"],
