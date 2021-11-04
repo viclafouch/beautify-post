@@ -2,6 +2,7 @@ import webpack from 'webpack'
 import CopyPlugin from 'copy-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
 import * as path from 'path'
+import packageJson from './package.json'
 import open from 'open'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -18,7 +19,9 @@ if (!currentBrowser || !browsers.includes(currentBrowser)) {
     `Please specify the TARGET environment. \n Possible values: ${browsers}`
   )
 } else {
+  // eslint-disable-next-line no-console
   console.info(`\x1b[1;32mLinkedIn-Formatter@${currentAppVersion}\x1b[m`)
+  // eslint-disable-next-line no-console
   console.info(`\x1b[1;32mBuilding for ${currentBrowser}...\x1b[m`)
 }
 
@@ -76,7 +79,7 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
               return Buffer.from(
                 JSON.stringify(
                   {
-                    description: process.env.npm_package_description,
+                    description: packageJson.description,
                     version: currentAppVersion,
                     ...manifestContent
                   },
