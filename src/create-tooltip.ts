@@ -2,6 +2,7 @@ import { buildAppOnContainer } from '@components/App'
 import { matchIsTextEmpty } from '@helpers/string'
 import {
   matchIsTextEditorContainsSelection,
+  matchIsTypeAheadExists,
   matchIsValidSelection
 } from '@helpers/linkedin-dom'
 import {
@@ -25,6 +26,10 @@ function createTooltipOnBody(selection: Selection): void {
 export function subscribeSelectionChange(): SubscriptionSelection {
   return subscribeDocumentSelection((selection: Selection | null) => {
     if (!selection?.rangeCount || matchIsTextEmpty(selection.toString())) {
+      return
+    }
+
+    if (matchIsTypeAheadExists()) {
       return
     }
 

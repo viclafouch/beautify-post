@@ -26,6 +26,10 @@ export function matchIsHashtagElement(element: Node): boolean {
   )
 }
 
+export function matchIsTypeAheadExists(): boolean {
+  return document.querySelector(POPUP.typeahead) !== null
+}
+
 export function matchIsValidSelection(selection: Selection): boolean {
   const { startContainer, endContainer } = selection.getRangeAt(0)
   const hasSelectMentionElement =

@@ -1,6 +1,6 @@
 import React from 'react'
+import { css } from '@emotion/css'
 import Bold from '@components/Bold/bold'
-import Styled from './tooltip.styled'
 import Italic from '@components/Italic/italic'
 import { useDetectClickOutside } from 'react-detect-click-outside'
 import Clean from '@components/Clean/clean'
@@ -12,6 +12,12 @@ type TooltipProps = {
   clearTooltip: () => void
 }
 
+const classNames = {
+  root: css`
+    display: inline-flex;
+  `
+}
+
 const Tooltip = (props: TooltipProps): React.ReactElement => {
   const { selection, onFormat, clearTooltip } = props
   const ref = useDetectClickOutside({
@@ -19,11 +25,11 @@ const Tooltip = (props: TooltipProps): React.ReactElement => {
   })
 
   return (
-    <Styled ref={ref}>
+    <div ref={ref} className={classNames.root}>
       <Bold selection={selection} onFormat={onFormat} />
       <Italic selection={selection} onFormat={onFormat} />
       <Clean selection={selection} onFormat={onFormat} />
-    </Styled>
+    </div>
   )
 }
 
