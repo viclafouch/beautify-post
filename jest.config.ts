@@ -9,7 +9,7 @@ const config: InitialOptionsTsJest = {
     prefix: '<rootDir>/src/'
   }),
   testRegex: '\\.test\\.ts',
-  extensionsToTreatAsEsm: ['.ts'],
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
   testTimeout: 20000,
   testEnvironment: 'jest-environment-jsdom-global',
   setupFilesAfterEnv: ['jest-extended/all'],

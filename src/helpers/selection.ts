@@ -4,9 +4,12 @@ import { matchIsTextIsBoldItalic } from '@helpers/bold-italic'
 import { getSiblingsBetweenElements } from '@helpers/dom'
 import { matchIsTextIsBold, removeBoldFromText } from '@helpers/bold'
 import { FormatType } from '@constants/format-type'
+import { matchIsKeyboardEventSelectAll } from './keyboard'
+import { clearCurrentAppContainer } from '@components/App'
 
 export function getDocumentSelection(): Selection | null {
-  return document.getSelection()
+  const selection = document.getSelection()
+  return selection?.type === 'Range' ? selection : null
 }
 
 export function getSelectionText(selection: Selection): string {
@@ -95,11 +98,14 @@ export type SubscriptionSelection = {
 export function subscribeDocumentSelection(
   callback: (selection: Selection | null) => void
 ): SubscriptionSelection {
+  let isSelectAllByKeyboard = false
   let isSelecting = false
   let currentSelection: Selection | null = null
 
   function handleSelectStart(): void {
-    isSelecting = true
+    if (!isSelectAllByKeyboard) {
+      isSelecting = true
+    }
   }
 
   function handleMouseUp(): void {
@@ -113,22 +119,39 @@ export function subscribeDocumentSelection(
 
   function handleSelectionChange(): void {
     const selection = getDocumentSelection()
-    if (selection && currentSelection) {
+    if (isSelectAllByKeyboard && selection) {
+      callback(selection)
+      isSelectAllByKeyboard = false
+    } else if (selection && currentSelection) {
       currentSelection = null
       callback(currentSelection)
+    } else {
+      clearCurrentAppContainer()
     }
+  }
+
+  function handleKeyDown(event: KeyboardEvent): void {
+    isSelectAllByKeyboard = matchIsKeyboardEventSelectAll(event)
+  }
+
+  function handleKeyUp(): void {
+    isSelectAllByKeyboard = false
   }
 
   function unsubscribe(): void {
     document.removeEventListener('selectstart', handleSelectStart)
     document.removeEventListener('mouseup', handleMouseUp)
     document.removeEventListener('selectionchange', handleSelectionChange)
+    document.removeEventListener('keyup', handleKeyUp)
+    document.removeEventListener('keydown', handleKeyDown)
   }
 
   function subscribe(): void {
     document.addEventListener('selectstart', handleSelectStart)
     document.addEventListener('mouseup', handleMouseUp)
     document.addEventListener('selectionchange', handleSelectionChange)
+    document.addEventListener('keyup', handleKeyUp)
+    document.addEventListener('keydown', handleKeyDown)
   }
 
   subscribe()
