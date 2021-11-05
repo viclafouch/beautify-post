@@ -1,6 +1,6 @@
 # Linkedin Formatter [![Build Status](https://app.travis-ci.com/viclafouch/linkedin-formatter.svg?branch=master)](https://app.travis-ci.com/viclafouch/linkedin-formatter)
 
-Linkedin Formatter is a web extension which allows users to bold and italicize text on the [LinkedIn](https://www.linkedin.com/) website. Selecting a text inside the creation post modal will show a tooltip to bold and italic the current text.
+Linkedin Formatter is a web extension which allows users to **bold** and _italicize_ text on the [LinkedIn](https://www.linkedin.com/) website. Selecting a text inside the creation post modal will show a tooltip to bold and italic the current text.
 
 ### What we use to develop this extension 🚀
 
