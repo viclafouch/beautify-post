@@ -27,7 +27,8 @@ module.exports = {
         tabWidth: 2,
         jsxSingleQuote: false,
         trailingComma: 'none',
-        arrowParens: 'avoid'
+        arrowParens: 'avoid',
+        endOfLine: 'auto'
       }
     ]
   },
