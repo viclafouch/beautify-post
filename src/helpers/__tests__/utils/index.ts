@@ -42,7 +42,7 @@ export async function initLinkedinFeedPage({
   password
 }: Credentials): Promise<InitLinkedinFeedPage> {
   const browser = await puppeteer.launch()
-  const page = await browser.newPage()
+  const page = (await browser.pages())[0]
   try {
     await page.goto('https://www.linkedin.com/login')
     await page.$eval(
@@ -63,11 +63,10 @@ export async function initLinkedinFeedPage({
       },
       password
     )
-
+    await new Promise(resolve => setTimeout(resolve, 3000))
     await page.click('.login__form_action_container > button[type="submit"]')
-    await page.waitForSelector('.share-box-feed-entry__trigger', {
-      timeout: 3000
-    })
+    await new Promise(resolve => setTimeout(resolve, 3000))
+    await page.waitForSelector('.share-box-feed-entry__trigger')
     return { page, browser }
   } catch (error) {
     await browser.close()

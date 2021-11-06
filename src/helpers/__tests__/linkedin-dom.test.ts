@@ -14,7 +14,7 @@ const withPupetter =
 
 // TODO: make it work 100%
 // eslint-disable-next-line jest/no-disabled-tests
-describe.skip('helpers/linkedin-dom', () => {
+withPupetter('helpers/linkedin-dom', () => {
   beforeAll(async () => {
     jest.setTimeout(50000)
     const { page, browser } = await initLinkedinFeedPage({
@@ -25,7 +25,7 @@ describe.skip('helpers/linkedin-dom', () => {
     currentBrowser = browser
   })
 
-  withPupetter('Pupetter tests with your account', () => {
+  describe('Pupetter tests with your account', () => {
     describe('getContainerElement', function () {
       beforeAll(async () => {
         await feedPage.exposeFunction(
