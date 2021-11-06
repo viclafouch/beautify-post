@@ -12,6 +12,14 @@ export function getDocumentSelection(): Selection | null {
   return selection?.type === 'Range' ? selection : null
 }
 
+export function getHTMLfromSelection(selection: Selection): DocumentFragment {
+  const fragment = document.createDocumentFragment()
+  const range = selection.getRangeAt(0)
+  const clonedSelection = range.cloneContents()
+  fragment.appendChild(clonedSelection)
+  return fragment
+}
+
 export function getSelectionText(selection: Selection): string {
   return selection.toString().trim()
 }

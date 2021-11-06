@@ -1,5 +1,5 @@
 import { POPUP } from '@constants/dom'
-import { getSiblingsBetweenElements } from './dom'
+import { getHTMLfromSelection } from './selection'
 
 export function getContainerElement(): Element | null {
   return document.querySelector(POPUP.container)
@@ -32,15 +32,13 @@ export function matchIsTypeAheadExists(): boolean {
 
 export function matchIsValidSelection(selection: Selection): boolean {
   const { startContainer, endContainer } = selection.getRangeAt(0)
-  const hasSelectMentionElement =
-    matchIsMentionElement(startContainer) || matchIsMentionElement(endContainer)
-  if (hasSelectMentionElement) {
-    return false
-  }
-  const siblings = getSiblingsBetweenElements(startContainer, endContainer)
-  return siblings.every(sibling => {
-    return !matchIsMentionElement(sibling) && !matchIsHashtagElement(sibling)
+  const html = getHTMLfromSelection(selection)
+  const isExtraTagElement = [startContainer, endContainer].some(element => {
+    return matchIsMentionElement(element) || matchIsHashtagElement(element)
   })
+  const isContainsExtraTagElement =
+    html.querySelectorAll('a, strong').length === 0
+  return !isExtraTagElement && !isContainsExtraTagElement
 }
 
 export function matchIsTextEditorContainsSelection(
