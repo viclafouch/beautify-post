@@ -1,5 +1,6 @@
 import React from 'react'
 import { css } from '@emotion/css'
+import { BUTTON_HEIGHT } from '@constants/style'
 
 type ButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -10,7 +11,7 @@ type ButtonProps = React.DetailedHTMLProps<
 
 const classNames = {
   root: css`
-    height: 34px;
+    height: ${BUTTON_HEIGHT}px;
     color: #000000;
     min-width: 24px;
     padding-inline: 5px;

@@ -5,6 +5,10 @@ export function getContainerElement(): Element | null {
   return document.querySelector(POPUP.container)
 }
 
+export function getModalContent(): Element | null {
+  return document.querySelector(POPUP.textEditorScroller)
+}
+
 export function getTextEditorElement(): Element | null {
   return document.querySelector(POPUP.textEditor)
 }

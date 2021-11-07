@@ -1,8 +1,10 @@
 export const POPUP = {
-  // the modal container
+  // Modal container
   container: '#artdeco-modal-outlet',
-  // The texteditor inside the modal above
+  // Modal content
+  textEditorScroller: '.artdeco-modal__content',
+  // Texteditor content
   textEditor: '.share-creation-state__text-editor',
-  // The menu dropdown to add a @mention
+  // Menu dropdown to add a @mention
   typeahead: '.editor-typeahead-fetch .editor-typeahead__typeahead-tray'
 }
