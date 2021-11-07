@@ -21,7 +21,7 @@ export function getHTMLfromSelection(selection: Selection): DocumentFragment {
 }
 
 export function getSelectionText(selection: Selection): string {
-  return selection.toString().trim()
+  return selection.toString()
 }
 
 function formatPortionOfSelection(
