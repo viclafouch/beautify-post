@@ -37,7 +37,7 @@ export function matchIsValidSelection(selection: Selection): boolean {
     return matchIsMentionElement(element) || matchIsHashtagElement(element)
   })
   const isContainsExtraTagElement =
-    html.querySelectorAll('a, strong').length === 0
+    html.querySelectorAll('a, strong').length > 0
   return !isExtraTagElement && !isContainsExtraTagElement
 }
 

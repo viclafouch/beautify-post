@@ -1,12 +1,5 @@
 import { matchIsLastArrayItem } from './array'
 
-export function matchIsClickInside(
-  container: Element,
-  elementClicked: EventTarget | null
-): boolean {
-  return elementClicked instanceof Node && container.contains(elementClicked)
-}
-
 export function matchHaveSameParentElement(...nodes: Node[]): boolean {
   return nodes.every((node, index) => {
     if (matchIsLastArrayItem(node, nodes)) {

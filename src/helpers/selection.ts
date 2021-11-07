@@ -46,6 +46,13 @@ function formatPortionOfSelection(
   return formatTextByType(portionText, type)
 }
 
+function getCurrentParagraphFromContainer(element: Node): HTMLParagraphElement {
+  if (element.nodeName === 'P') {
+    return element as HTMLParagraphElement
+  }
+  return element.parentElement as HTMLParagraphElement
+}
+
 export function formatSelectionByType(
   selection: Selection,
   formatType: FormatType
@@ -75,9 +82,12 @@ export function formatSelectionByType(
         formatType
       )
 
-    const startP = startContainer.parentElement as HTMLParagraphElement
-    const endP = endContainer.parentElement as HTMLParagraphElement
-    const allNextSiblings = getSiblingsBetweenElements(startP, endP)
+    const startParagraph = getCurrentParagraphFromContainer(startContainer)
+    const endParagraph = getCurrentParagraphFromContainer(endContainer)
+    const allNextSiblings = getSiblingsBetweenElements(
+      startParagraph,
+      endParagraph
+    )
 
     for (const sibling of allNextSiblings) {
       const textPortion = sibling.textContent || ''
@@ -112,6 +122,7 @@ export function subscribeDocumentSelection(
 
   function handleSelectStart(): void {
     if (!isSelectAllByKeyboard) {
+      clearCurrentAppContainer()
       isSelecting = true
     }
   }
@@ -127,19 +138,22 @@ export function subscribeDocumentSelection(
 
   function handleSelectionChange(): void {
     const selection = getDocumentSelection()
-    if (isSelectAllByKeyboard && selection) {
-      callback(selection)
-      isSelectAllByKeyboard = false
-    } else if (selection && currentSelection) {
+    if (selection && currentSelection && !isSelectAllByKeyboard) {
       currentSelection = null
       callback(currentSelection)
-    } else {
-      clearCurrentAppContainer()
     }
   }
 
   function handleKeyDown(event: KeyboardEvent): void {
     isSelectAllByKeyboard = matchIsKeyboardEventSelectAll(event)
+    if (isSelectAllByKeyboard) {
+      setTimeout(() => {
+        const selection = getDocumentSelection()
+        isSelecting = false
+        currentSelection = null
+        callback(selection)
+      }, 100)
+    }
   }
 
   function handleKeyUp(): void {
