@@ -15,7 +15,6 @@
   "keywords": [
     "extension",
     "chrome",
-    "firefox",
     "react",
     "linkedin",
     "bold",
@@ -24,10 +23,8 @@
   "scripts": {
     "dev": "npm run dev:chrome",
     "dev:chrome": "npx cross-env TARGET=chrome webpack --mode=development",
-    "dev:firefox": "npx cross-env TARGET=firefox webpack --mode=development",
     "build": "npm-run-all -n build:*",
     "build:chrome": "npx cross-env TARGET=chrome webpack --mode=production",
-    "build:firefox": "npx cross-env TARGET=firefox webpack --mode=production",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js",
     "publish": "ts-node -T tasks/publish.ts",
     "lint": "tsc --noEmit && eslint . --ext .js,.ts,.tsx",
