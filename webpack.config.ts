@@ -104,6 +104,10 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
                   '{{version}}',
                   String(currentAppVersion)
                 )
+                htmlString = htmlString.replace(
+                  '{{homepage}}',
+                  packageJson.homepage
+                )
                 return Buffer.from(htmlString)
               }
               return content
