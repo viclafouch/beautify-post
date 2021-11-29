@@ -2,9 +2,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const fs = require('fs')
 const util = require('util')
-const packageInfo = require('../package.json')
 const path = require('path')
+// eslint-disable-next-line import/no-extraneous-dependencies
 const AdmZip = require('adm-zip')
+const packageInfo = require('../package.json')
 const browsers = require('../browsers')
 
 const readdir = util.promisify(fs.readdir)
@@ -17,11 +18,14 @@ const entryOutput = 'build'
 const zipFileName = `${appName}-${+new Date()}.zip`
 const zip = new AdmZip()
 
-fs.existsSync(`./${rootOutput}`) || fs.mkdirSync(`./${rootOutput}`)
+if (!fs.existsSync(`./${rootOutput}`)) {
+  fs.mkdirSync(`./${rootOutput}`)
+}
 
 browsers.forEach((browser: string) => {
-  fs.existsSync(`./${rootOutput}/${browser}`) ||
+  if (!fs.existsSync(`./${rootOutput}/${browser}`)) {
     fs.mkdirSync(`./${rootOutput}/${browser}`)
+  }
 })
 
 async function removeFiles(directory: string): Promise<void> {

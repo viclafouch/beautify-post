@@ -1,4 +1,5 @@
 import { POPUP } from '@constants/dom'
+
 import { getHTMLfromSelection } from './selection'
 
 export function getContainerElement(): Element | null {
@@ -37,7 +38,7 @@ export function matchIsTypeAheadExists(): boolean {
 export function matchIsValidSelection(selection: Selection): boolean {
   const { startContainer, endContainer } = selection.getRangeAt(0)
   const html = getHTMLfromSelection(selection)
-  const isExtraTagElement = [startContainer, endContainer].some(element => {
+  const isExtraTagElement = [startContainer, endContainer].some((element) => {
     return matchIsMentionElement(element) || matchIsHashtagElement(element)
   })
   const isContainsExtraTagElement =

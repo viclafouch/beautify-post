@@ -2,14 +2,11 @@
 module.exports = {
   root: true,
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
+    '@viclafouch/eslint-config-viclafouch/typescript',
     'plugin:jest/recommended',
     'plugin:jest-formatting/recommended'
   ],
-  plugins: ['@typescript-eslint', 'jest'],
-  parser: '@typescript-eslint/parser',
+  plugins: ['jest'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -17,20 +14,8 @@ module.exports = {
   },
   rules: {
     'no-console': 'error',
-    '@typescript-eslint/ban-ts-comment': 'off',
-    'prettier/prettier': [
-      'error',
-      {
-        semi: false,
-        singleQuote: true,
-        printWidth: 80,
-        tabWidth: 2,
-        jsxSingleQuote: false,
-        trailingComma: 'none',
-        arrowParens: 'avoid',
-        endOfLine: 'auto'
-      }
-    ]
+    'import/no-cycle': 0,
+    '@typescript-eslint/ban-ts-comment': 'off'
   },
   overrides: [
     {

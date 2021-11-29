@@ -1,15 +1,17 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import React from 'react'
+import ReactDOM from 'react-dom'
 import { FormatType } from '@constants/format-type'
+import { BUTTON_HEIGHT, SPACING_ABOVE_SELECTION } from '@constants/style'
+import { css } from '@emotion/css'
 import {
   matchIsKeyboardEventBold,
   matchIsKeyboardEventItalic
 } from '@helpers/keyboard'
-import { css } from '@emotion/css'
-import { formatSelectionByType } from '@helpers/selection'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import Tooltip from './Tooltip/tooltip'
 import { getModalContent } from '@helpers/linkedin-dom'
-import { BUTTON_HEIGHT, SPACING_ABOVE_SELECTION } from '@constants/style'
+import { formatSelectionByType } from '@helpers/selection'
+
+import Tooltip from './Tooltip/tooltip'
 
 type InitialProps = {
   selection: Selection
@@ -44,18 +46,19 @@ function handleResize(): void {
   }
 }
 
-const handleKeyDown = (event: KeyboardEvent): void => {
+function handleKeyDown(event: KeyboardEvent): void {
   if (!event.metaKey && !event.ctrlKey) {
-    return clearCurrentAppContainer()
+    clearCurrentAppContainer()
   }
   if (matchIsKeyboardEventBold(event) && currentSelection) {
     event.stopPropagation()
     formatSelectionByType(currentSelection, FormatType.bold)
-    return clearCurrentAppContainer()
-  } else if (matchIsKeyboardEventItalic(event) && currentSelection) {
+    clearCurrentAppContainer()
+  }
+  if (matchIsKeyboardEventItalic(event) && currentSelection) {
     event.stopPropagation()
     formatSelectionByType(currentSelection, FormatType.italic)
-    return clearCurrentAppContainer()
+    clearCurrentAppContainer()
   }
 }
 

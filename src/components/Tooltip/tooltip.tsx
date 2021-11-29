@@ -1,12 +1,11 @@
 import React from 'react'
-import { css } from '@emotion/css'
-import Bold from '@components/Bold/bold'
-import Italic from '@components/Italic/italic'
 import { useDetectClickOutside } from 'react-detect-click-outside'
+import Bold from '@components/Bold/bold'
 import Clean from '@components/Clean/clean'
+import Italic from '@components/Italic/italic'
+import { css } from '@emotion/css'
 
 type TooltipProps = {
-  close?: () => void
   selection: Selection
   onFormat: () => void
   clearTooltip: () => void

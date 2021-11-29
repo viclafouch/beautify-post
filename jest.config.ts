@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import type { InitialOptionsTsJest } from 'ts-jest/dist/types'
 
-const { compilerOptions } = require('./tsconfig.json')
 const { pathsToModuleNameMapper } = require('ts-jest/utils')
+const { compilerOptions } = require('./tsconfig.json')
 
 const config: InitialOptionsTsJest = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {

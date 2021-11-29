@@ -1,16 +1,17 @@
 import { unicodes } from '@constants/unicode'
+
 import { splitTextInArray } from './array'
+import { formatBoldLetterToNormal, matchIsUnicodeBold } from './bold'
+import { compose } from './compose'
+import { formatItalicLetterToNormal, matchIsUnicodeItalic } from './italic'
+import { matchIsNumber } from './number'
 import {
+  getUnicodeLetter,
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
-  matchIsTextUppercase,
-  matchIsTextUnknown
+  matchIsTextUnknown,
+  matchIsTextUppercase
 } from './string'
-import { matchIsNumber } from './number'
-import { getUnicodeLetter } from './string'
-import { formatBoldLetterToNormal, matchIsUnicodeBold } from './bold'
-import { formatItalicLetterToNormal, matchIsUnicodeItalic } from './italic'
-import { compose } from './compose'
 
 export function matchIsUnicodeLowerBoldItalic(unicode: number): boolean {
   return unicode >= unicodes.boldItalic.a && unicode <= unicodes.boldItalic.z
@@ -57,11 +58,10 @@ export function formatNormalLetterToBoldItalic(normalLetter: string): string {
     return String.fromCodePoint(
       unicodes.boldItalic.A - unicodes.normal.A + unicode
     )
-  } else {
-    return String.fromCodePoint(
-      unicodes.boldItalic.a - unicodes.normal.a + unicode
-    )
   }
+  return String.fromCodePoint(
+    unicodes.boldItalic.a - unicodes.normal.a + unicode
+  )
 }
 
 export function formatBoldItalicLetterToNormal(
@@ -75,16 +75,15 @@ export function formatBoldItalicLetterToNormal(
     return String.fromCodePoint(
       unicodes.normal.A - unicodes.boldItalic.A + unicode
     )
-  } else {
-    return String.fromCodePoint(
-      unicodes.normal.a - unicodes.boldItalic.a + unicode
-    )
   }
+  return String.fromCodePoint(
+    unicodes.normal.a - unicodes.boldItalic.a + unicode
+  )
 }
 
 export function formatBoldItalic(text: string): string {
   const textSplitted = splitTextInArray(text)
-  const textSplittedFormatted = textSplitted.map(letter => {
+  const textSplittedFormatted = textSplitted.map((letter) => {
     const normalLetter = compose(
       formatBoldLetterToNormal,
       formatItalicLetterToNormal

@@ -1,9 +1,10 @@
-import webpack from 'webpack'
-import CopyPlugin from 'copy-webpack-plugin'
 import { CleanWebpackPlugin } from 'clean-webpack-plugin'
-import * as path from 'path'
-import packageJson from './package.json'
+import CopyPlugin from 'copy-webpack-plugin'
 import open from 'open'
+import * as path from 'path'
+import webpack from 'webpack'
+
+import packageJson from './package.json'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const browsers = require('./browsers')
@@ -74,7 +75,7 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
             from: path.join(__dirname, 'manifest.json'),
             to: outputPath,
             force: true,
-            transform: function (content): Buffer {
+            transform(content): Buffer {
               const manifestContent = JSON.parse(content.toString())
               return Buffer.from(
                 JSON.stringify(
@@ -97,7 +98,7 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
             from: path.join(__dirname, 'options'),
             to: path.join(outputPath, 'options'),
             force: true,
-            transform: function (content, currentPath): Buffer {
+            transform(content, currentPath): Buffer {
               if (currentPath.endsWith('popup.html')) {
                 let htmlString = content.toString()
                 htmlString = htmlString.replace(

@@ -8,6 +8,7 @@ import {
   matchIsUnicodeUpperItalic,
   removeItalicFromText
 } from '@helpers/italic'
+
 import { range } from './utils'
 
 describe('helpers/italic', () => {

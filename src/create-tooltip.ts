@@ -1,5 +1,4 @@
 import { buildAppOnContainer } from '@components/App'
-import { matchIsTextEmpty } from '@helpers/string'
 import {
   matchIsTextEditorContainsSelection,
   matchIsTypeAheadExists,
@@ -9,6 +8,7 @@ import {
   subscribeDocumentSelection,
   SubscriptionSelection
 } from '@helpers/selection'
+import { matchIsTextEmpty } from '@helpers/string'
 
 function getNewContainerElement(): HTMLDivElement {
   const container = document.createElement('div')

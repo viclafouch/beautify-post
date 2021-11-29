@@ -9,10 +9,10 @@ export function appendTextToBody(text: string): HTMLElement {
 
 export function createSelection(selectNodeContents: Node): Selection {
   const selection = window.getSelection() as Selection
-  const range = document.createRange()
-  range.selectNodeContents(selectNodeContents)
+  const selectionRange = document.createRange()
+  selectionRange.selectNodeContents(selectNodeContents)
   selection.removeAllRanges()
-  selection.addRange(range)
+  selection.addRange(selectionRange)
   return selection
 }
 
@@ -24,7 +24,9 @@ export function cleanDocument(): void {
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from#sequence_generator_range
 export function range(start: number, end: number): number[] {
-  return Array.from({ length: end - start + 1 }, (_, index) => start + index)
+  return Array.from({ length: end - start + 1 }, (_, index) => {
+    return start + index
+  })
 }
 
 type Credentials = {
@@ -49,6 +51,7 @@ export async function initLinkedinFeedPage({
       'input#username',
       (input: Element, userEmail: unknown) => {
         if (input instanceof HTMLInputElement) {
+          // eslint-disable-next-line no-param-reassign
           input.value = String(userEmail) || ''
         }
       },
@@ -58,18 +61,23 @@ export async function initLinkedinFeedPage({
       'input#password',
       (input: Element, userPassword: unknown) => {
         if (input instanceof HTMLInputElement) {
+          // eslint-disable-next-line no-param-reassign
           input.value = String(userPassword)
         }
       },
       password
     )
-    await new Promise(resolve => setTimeout(resolve, 3000))
+    await new Promise((resolve) => {
+      setTimeout(resolve, 3000)
+    })
     await page.click('.login__form_action_container > button[type="submit"]')
-    await new Promise(resolve => setTimeout(resolve, 3000))
+    await new Promise((resolve) => {
+      setTimeout(resolve, 3000)
+    })
     await page.waitForSelector('.share-box-feed-entry__trigger')
     return { page, browser }
   } catch (error) {
     await browser.close()
-    return Promise.reject('EMAIL_OR_PASSWORD_INCORRECT')
+    return Promise.reject(new Error('EMAIL_OR_PASSWORD_INCORRECT'))
   }
 }

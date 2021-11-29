@@ -1,4 +1,5 @@
 import { unicodes } from '@constants/unicode'
+
 import { splitTextInArray } from './array'
 import {
   formatBoldLetterToNormal,
@@ -6,19 +7,19 @@ import {
   matchIsUnicodeBold
 } from './bold'
 import {
-  matchIsCharacterANormalLetter,
-  matchIsTextEmpty,
-  matchIsTextUppercase,
-  matchIsTextUnknown
-} from './string'
-import { matchIsNumber } from './number'
-import { getUnicodeLetter } from './string'
-import {
   formatBoldItalicLetterToNormal,
   formatNormalLetterToBoldItalic,
   matchIsTextIsBoldItalic,
   matchIsUnicodeBoldItalic
 } from './bold-italic'
+import { matchIsNumber } from './number'
+import {
+  getUnicodeLetter,
+  matchIsCharacterANormalLetter,
+  matchIsTextEmpty,
+  matchIsTextUnknown,
+  matchIsTextUppercase
+} from './string'
 
 export function matchIsUnicodeLowerItalic(unicode: number): boolean {
   return unicode >= unicodes.italic.a && unicode <= unicodes.italic.z
@@ -64,9 +65,8 @@ export function formatNormalLetterToItalic(normalLetter: string): string {
   }
   if (matchIsTextUppercase(normalLetter)) {
     return String.fromCodePoint(unicodes.italic.A - unicodes.normal.A + unicode)
-  } else {
-    return String.fromCodePoint(unicodes.italic.a - unicodes.normal.a + unicode)
   }
+  return String.fromCodePoint(unicodes.italic.a - unicodes.normal.a + unicode)
 }
 
 export function formatItalicLetterToNormal(boldLetter: string): string {
@@ -76,29 +76,28 @@ export function formatItalicLetterToNormal(boldLetter: string): string {
   }
   if (matchIsUnicodeUpperItalic(unicode)) {
     return String.fromCodePoint(unicodes.normal.A - unicodes.italic.A + unicode)
-  } else {
-    return String.fromCodePoint(unicodes.normal.a - unicodes.italic.a + unicode)
   }
+  return String.fromCodePoint(unicodes.normal.a - unicodes.italic.a + unicode)
 }
 
 export function removeItalicFromText(text: string): string {
   const textSplitted = splitTextInArray(text)
-  const textSplittedFormatted = textSplitted.map(letter => {
+  const textSplittedFormatted = textSplitted.map((letter) => {
     if (matchIsTextIsBoldItalic(letter)) {
       const normalLetter = formatBoldItalicLetterToNormal(letter)
       return formatNormalLetterToBold(normalLetter)
-    } else if (matchIsTextIsItalic(letter)) {
-      return formatItalicLetterToNormal(letter)
-    } else {
-      return letter
     }
+    if (matchIsTextIsItalic(letter)) {
+      return formatItalicLetterToNormal(letter)
+    }
+    return letter
   })
   return textSplittedFormatted.join('')
 }
 
 export function formatItalic(text: string): string {
   const textSplitted = splitTextInArray(text)
-  const textSplittedFormatted = textSplitted.map(letter => {
+  const textSplittedFormatted = textSplitted.map((letter) => {
     const unicode = getUnicodeLetter(letter)
     if (!matchIsNumber(unicode)) {
       return letter

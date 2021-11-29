@@ -1,12 +1,12 @@
 import { FormatType } from '@constants/format-type'
 import {
+  formatNormal,
+  formatTextByType,
   getUnicodeLetter,
   matchIsCharacterANormalLetter,
   matchIsTextEmpty,
-  formatNormal,
-  matchIsTextUppercase,
-  formatTextByType,
-  matchIsTextUnknown
+  matchIsTextUnknown,
+  matchIsTextUppercase
 } from '@helpers/string'
 
 describe('helpers/string', () => {

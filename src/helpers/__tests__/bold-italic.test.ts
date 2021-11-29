@@ -7,6 +7,7 @@ import {
   matchIsUnicodeLowerBoldItalic,
   matchIsUnicodeUpperBoldItalic
 } from '@helpers/bold-italic'
+
 import { range } from './utils'
 
 describe('helpers/bold-italic', () => {

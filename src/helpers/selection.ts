@@ -1,11 +1,12 @@
-import { matchIsTextIsItalic, removeItalicFromText } from '@helpers/italic'
-import { formatTextByType } from '@helpers/string'
+import { clearCurrentAppContainer } from '@components/App'
+import { FormatType } from '@constants/format-type'
+import { matchIsTextIsBold, removeBoldFromText } from '@helpers/bold'
 import { matchIsTextIsBoldItalic } from '@helpers/bold-italic'
 import { getSiblingsBetweenElements } from '@helpers/dom'
-import { matchIsTextIsBold, removeBoldFromText } from '@helpers/bold'
-import { FormatType } from '@constants/format-type'
+import { matchIsTextIsItalic, removeItalicFromText } from '@helpers/italic'
+import { formatTextByType } from '@helpers/string'
+
 import { matchIsKeyboardEventSelectAll } from './keyboard'
-import { clearCurrentAppContainer } from '@components/App'
 
 export function getDocumentSelection(): Selection | null {
   const selection = document.getSelection()
@@ -89,14 +90,15 @@ export function formatSelectionByType(
       endParagraph
     )
 
-    for (const sibling of allNextSiblings) {
+    allNextSiblings.forEach((sibling) => {
       const textPortion = sibling.textContent || ''
+      // eslint-disable-next-line no-param-reassign
       sibling.textContent = formatPortionOfSelection(
         currentSelectedText,
         textPortion,
         formatType
       )
-    }
+    })
 
     // end first line
     endContainer.nodeValue =

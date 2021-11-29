@@ -1,9 +1,9 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faItalic } from '@fortawesome/free-solid-svg-icons/faItalic'
 import Button from '@components/Button/button'
-import { matchIsTextIsItalic } from '@helpers/italic'
 import { FormatType } from '@constants/format-type'
+import { faItalic } from '@fortawesome/free-solid-svg-icons/faItalic'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { matchIsTextIsItalic } from '@helpers/italic'
 import { formatSelectionByType } from '@helpers/selection'
 
 type ItalicProps = {

@@ -1,9 +1,11 @@
-import { jest } from '@jest/globals'
 import {
   getContainerElement,
   getTextEditorElement
 } from '@helpers/linkedin-dom'
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { jest } from '@jest/globals'
 import { Browser, Page } from 'puppeteer'
+
 import { initLinkedinFeedPage } from './utils'
 
 let feedPage: Page
@@ -26,7 +28,7 @@ withPupetter('helpers/linkedin-dom', () => {
   })
 
   describe('Pupetter tests with your account', () => {
-    describe('getContainerElement', function () {
+    describe('getContainerElement', () => {
       beforeAll(async () => {
         await feedPage.exposeFunction(
           'getContainerElement',

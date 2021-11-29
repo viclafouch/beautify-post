@@ -1,18 +1,22 @@
-import { matchIsNumber } from './number'
-import { matchIsUnicodeBold } from './bold'
-import { compose } from './compose'
+import { FormatType } from '@constants/format-type'
+
 import { splitTextInArray } from './array'
-import { formatBold, formatBoldLetterToNormal } from './bold'
+import {
+  formatBold,
+  formatBoldLetterToNormal,
+  matchIsUnicodeBold
+} from './bold'
+import {
+  formatBoldItalicLetterToNormal,
+  matchIsUnicodeBoldItalic
+} from './bold-italic'
+import { compose } from './compose'
 import {
   formatItalic,
   formatItalicLetterToNormal,
   matchIsUnicodeItalic
 } from './italic'
-import {
-  formatBoldItalicLetterToNormal,
-  matchIsUnicodeBoldItalic
-} from './bold-italic'
-import { FormatType } from '@constants/format-type'
+import { matchIsNumber } from './number'
 
 export function getUnicodeLetter(letter: string): undefined | number {
   return letter.codePointAt(0)
@@ -32,7 +36,7 @@ export function matchIsCharacterANormalLetter(char: string): boolean {
 
 export function matchIsTextUnknown(text: string): boolean {
   const textSplitted = splitTextInArray(text)
-  return textSplitted.every(letter => {
+  return textSplitted.every((letter) => {
     const unicode = getUnicodeLetter(letter)
     return (
       !matchIsNumber(unicode) ||
@@ -46,7 +50,7 @@ export function matchIsTextUnknown(text: string): boolean {
 
 export function formatNormal(text: string): string {
   const textSplitted = splitTextInArray(text)
-  const textSplittedFormatted = textSplitted.map(letter => {
+  const textSplittedFormatted = textSplitted.map((letter) => {
     return compose(
       formatBoldLetterToNormal,
       formatItalicLetterToNormal,
@@ -59,9 +63,11 @@ export function formatNormal(text: string): string {
 export function formatTextByType(text: string, formatType: FormatType): string {
   if (formatType === FormatType.italic) {
     return formatItalic(text)
-  } else if (formatType === FormatType.bold) {
+  }
+  if (formatType === FormatType.bold) {
     return formatBold(text)
-  } else if (formatType === FormatType.normal) {
+  }
+  if (formatType === FormatType.normal) {
     return formatNormal(text)
   }
   return text

@@ -1,5 +1,6 @@
 import { FormatType } from '@constants/format-type'
 import { formatSelectionByType } from '@helpers/selection'
+
 import { appendTextToBody, cleanDocument, createSelection } from './utils'
 
 describe('helpers/selection', () => {

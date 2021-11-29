@@ -1,9 +1,9 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRemoveFormat } from '@fortawesome/free-solid-svg-icons/faRemoveFormat'
 import Button from '@components/Button/button'
-import { formatSelectionByType } from '@helpers/selection'
 import { FormatType } from '@constants/format-type'
+import { faRemoveFormat } from '@fortawesome/free-solid-svg-icons/faRemoveFormat'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { formatSelectionByType } from '@helpers/selection'
 
 type CleanProps = {
   selection: Selection

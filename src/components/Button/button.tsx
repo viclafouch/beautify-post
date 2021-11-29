@@ -1,6 +1,6 @@
 import React from 'react'
-import { css } from '@emotion/css'
 import { BUTTON_HEIGHT } from '@constants/style'
+import { css } from '@emotion/css'
 
 type ButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -53,6 +53,10 @@ const Button = (props: ButtonProps): React.ReactElement => {
       {children}
     </button>
   )
+}
+
+Button.defaultProps = {
+  isSelected: false
 }
 
 export default Button
