@@ -12,7 +12,7 @@ import { matchIsTextEmpty } from '@helpers/string'
 
 function getNewContainerElement(): HTMLDivElement {
   const container = document.createElement('div')
-  container.id = 'linkedin-formatter-tooltip'
+  container.id = 'beautify-post-tooltip'
   container.setAttribute('role', 'tooltip')
   return container
 }

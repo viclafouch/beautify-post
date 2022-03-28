@@ -21,7 +21,7 @@ if (!currentBrowser || !browsers.includes(currentBrowser)) {
   )
 } else {
   // eslint-disable-next-line no-console
-  console.info(`\x1b[1;32mLinkedIn-Formatter@${currentAppVersion}\x1b[m`)
+  console.info(`\x1b[1;32mBeautify-post@${currentAppVersion}\x1b[m`)
   // eslint-disable-next-line no-console
   console.info(`\x1b[1;32mBuilding for ${currentBrowser}...\x1b[m`)
 }

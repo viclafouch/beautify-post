@@ -1,6 +1,6 @@
-# Linkedin Formatter [![Build Status](https://app.travis-ci.com/viclafouch/linkedin-formatter.svg?branch=master)](https://app.travis-ci.com/viclafouch/linkedin-formatter)
+# Beautify post [![Build Status](https://app.travis-ci.com/viclafouch/linkedin-formatter.svg?branch=master)](https://app.travis-ci.com/viclafouch/linkedin-formatter)
 
-Linkedin Formatter is a web extension which allows users to **bold** and _italicize_ text on the [LinkedIn](https://www.linkedin.com/) website. Selecting a text inside the creation post modal will show a tooltip to bold and italic the current text.
+Beautify post is a web extension which allows users to **bold** and _italicize_ text on the [LinkedIn](https://www.linkedin.com/) website. Selecting a text inside the creation post modal will show a tooltip to bold and italic the current text.
 
 ### What we use to develop this extension 🚀
 
@@ -10,7 +10,7 @@ Linkedin Formatter is a web extension which allows users to **bold** and _italic
 
 ### Installing from source 🧰
 
-1. Clone the repository: `git clone https://github.com/viclafouch/linkedin-formatter.git`
+1. Clone the repository: `git clone https://github.com/viclafouch/beautify-post.git`
 2. Install the npm dependencies `npm install`
 3. Build the unpacked extension: `npm run build`
 

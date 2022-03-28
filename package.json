@@ -1,15 +1,15 @@
 {
-  "name": "linkedin-formatter",
+  "name": "beautify-post",
   "version": "1.0.0",
   "description": "Web extension that allows to bold and italicize text on the LinkedIn website.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/viclafouch/linkedin-formatter.git"
+    "url": "git+https://github.com/viclafouch/beautify-post.git"
   },
   "author": "Victor de la Fouchardiere",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/viclafouch/linkedin-formatter/issues"
+    "url": "https://github.com/viclafouch/beautify-post/issues"
   },
   "homepage": "https://www.linkedin-formatter.app",
   "keywords": [
