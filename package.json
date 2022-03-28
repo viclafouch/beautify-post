@@ -11,12 +11,14 @@
   "bugs": {
     "url": "https://github.com/viclafouch/beautify-post/issues"
   },
-  "homepage": "https://www.linkedin-formatter.app",
+  "homepage": "https://www.beautify-post.app",
   "keywords": [
     "extension",
     "chrome",
     "react",
     "linkedin",
+    "beautify",
+    "post",
     "bold",
     "italic"
   ],

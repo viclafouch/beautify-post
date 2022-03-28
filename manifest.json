@@ -1,5 +1,5 @@
 {
-  "name": "LinkedIn Formatter",
+  "name": "Beautify Post",
   "manifest_version": 3,
   "author": "Victor de la Fouchardiere",
   "options_page": "options/popup.html",
