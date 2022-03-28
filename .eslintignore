@@ -1,2 +1,5 @@
 /build
 /dist
+jest.config.ts
+tasks
+webpack*
