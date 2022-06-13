@@ -107,7 +107,7 @@ const createConfig = (env: any, argv: any): webpack.Configuration => {
                 )
                 htmlString = htmlString.replace(
                   '{{homepage}}',
-                  packageJson.homepage
+                  'https://chrome.google.com/webstore/detail/beautify-post/ogngclmkdkdmdekchmghneecloclcffg'
                 )
                 return Buffer.from(htmlString)
               }
