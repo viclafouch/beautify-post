@@ -3,6 +3,7 @@ import { useDetectClickOutside } from 'react-detect-click-outside'
 import Bold from '@components/Bold/bold'
 import Clean from '@components/Clean/clean'
 import Italic from '@components/Italic/italic'
+import Uppercase from '@components/Uppercase/uppercase'
 import { css } from '@emotion/css'
 
 type TooltipProps = {
@@ -28,6 +29,7 @@ const Tooltip = (props: TooltipProps): React.ReactElement => {
       <Bold selection={selection} onFormat={onFormat} />
       <Italic selection={selection} onFormat={onFormat} />
       <Clean selection={selection} onFormat={onFormat} />
+      <Uppercase selection={selection} onFormat={onFormat} />
     </div>
   )
 }

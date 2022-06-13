@@ -38,5 +38,14 @@ describe('helpers/selection', () => {
       formatSelectionByType(selection, FormatType.italic)
       expect(nodeContents.textContent).toBe('foo𝘵𝘦𝘹𝘵 𝘵𝘩𝘢𝘵 𝘸𝘪𝘭𝘭 𝘣𝘦 𝘳𝘦𝘱𝘭𝘢𝘤𝘦𝘥')
     })
+
+    it('should uppercase the selected content', () => {
+      const nodeContents = appendTextToBody('foo')
+      const selectedText = document.createTextNode('text that will be replaced')
+      nodeContents.appendChild(selectedText)
+      const selection = createSelection(selectedText)
+      formatSelectionByType(selection, FormatType.uppercase)
+      expect(nodeContents.textContent).toBe('fooTEXT THAT WILL BE REPLACED')
+    })
   })
 })

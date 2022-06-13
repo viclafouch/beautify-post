@@ -7,6 +7,7 @@ import { matchIsTextIsItalic, removeItalicFromText } from '@helpers/italic'
 import { formatTextByType } from '@helpers/string'
 
 import { matchIsKeyboardEventSelectAll } from './keyboard'
+import { matchIsTextIsUppercase, removeUppercaseFromText } from './uppercase'
 
 export function getDocumentSelection(): Selection | null {
   const selection = document.getSelection()
@@ -43,6 +44,12 @@ function formatPortionOfSelection(
       matchIsTextIsBold(allSelectedText))
   ) {
     return removeBoldFromText(portionText)
+  }
+  if (
+    type === FormatType.uppercase &&
+    matchIsTextIsUppercase(allSelectedText)
+  ) {
+    return removeUppercaseFromText(portionText)
   }
   return formatTextByType(portionText, type)
 }

@@ -17,6 +17,7 @@ import {
   matchIsUnicodeItalic
 } from './italic'
 import { matchIsNumber } from './number'
+import { formatUppercase } from './uppercase'
 
 export function getUnicodeLetter(letter: string): undefined | number {
   return letter.codePointAt(0)
@@ -69,6 +70,9 @@ export function formatTextByType(text: string, formatType: FormatType): string {
   }
   if (formatType === FormatType.normal) {
     return formatNormal(text)
+  }
+  if (formatType === FormatType.uppercase) {
+    return formatUppercase(text)
   }
   return text
 }

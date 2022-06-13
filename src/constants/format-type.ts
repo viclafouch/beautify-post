@@ -1,5 +1,6 @@
 export enum FormatType {
   bold = 'BOLD',
   italic = 'ITALIC',
-  normal = 'NORMAL'
+  normal = 'NORMAL',
+  uppercase = 'UPPERCASE'
 }
