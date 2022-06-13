@@ -15,11 +15,7 @@ import {
   matchIsTextIsItalic,
   removeItalicFromText
 } from '@helpers/italic'
-import {
-  matchIsCharacterANormalLetter,
-  matchIsTextEmpty,
-  matchIsTextUnknown
-} from '@helpers/string'
+import { matchIsTextEmpty } from '@helpers/string'
 
 export function matchIsLetterIsUppercase(letter: string): boolean {
   if (matchIsTextIsBoldItalic(letter)) {
@@ -38,7 +34,7 @@ export function matchIsLetterIsUppercase(letter: string): boolean {
 }
 
 export function matchIsTextIsUppercase(text: string): boolean {
-  if (matchIsTextEmpty(text) || matchIsTextUnknown(text)) {
+  if (matchIsTextEmpty(text)) {
     return false
   }
   return splitTextInArray(text).every(matchIsLetterIsUppercase)
@@ -57,9 +53,6 @@ export function removeUppercaseFromText(text: string): string {
     if (!matchIsLetterIsUppercase(letter)) {
       return letter
     }
-    if (matchIsCharacterANormalLetter(letter)) {
-      return formatUppercaseToNormal(letter)
-    }
     if (matchIsTextIsBoldItalic(letter)) {
       const letterFormatted = formatBoldItalicLetterToNormal(letter)
       return formatNormalLetterToBoldItalic(
@@ -74,7 +67,7 @@ export function removeUppercaseFromText(text: string): string {
       const letterFormatted = removeItalicFromText(letter)
       return formatItalic(formatUppercaseToNormal(letterFormatted))
     }
-    return letter
+    return formatUppercaseToNormal(letter)
   })
   return textSplittedFormatted.join('')
 }
@@ -82,9 +75,6 @@ export function removeUppercaseFromText(text: string): string {
 export function formatUppercase(text: string): string {
   const textSplitted = splitTextInArray(text)
   const textSplittedFormatted = textSplitted.map((letter) => {
-    if (matchIsCharacterANormalLetter(letter)) {
-      return formatNormalToUppercase(letter)
-    }
     if (matchIsTextIsBoldItalic(letter)) {
       return formatBoldItalic(
         formatNormalToUppercase(formatBoldItalicLetterToNormal(letter))
@@ -96,7 +86,7 @@ export function formatUppercase(text: string): string {
     if (matchIsTextIsItalic(letter)) {
       return formatItalic(formatNormalToUppercase(removeItalicFromText(letter)))
     }
-    return letter
+    return formatNormalToUppercase(letter)
   })
   return textSplittedFormatted.join('')
 }

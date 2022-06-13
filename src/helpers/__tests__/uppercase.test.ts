@@ -42,6 +42,10 @@ describe('helpers/uppercase', () => {
     it('should return true for bold italic uppercase', () => {
       expect(matchIsLetterIsUppercase('𝑳')).toBeTrue()
     })
+
+    it('should return true for letters like ÀÈÙÇ', () => {
+      expect(matchIsLetterIsUppercase('À')).toBeTrue()
+    })
   })
 
   describe('matchIsTextIsUppercase', () => {
@@ -80,6 +84,10 @@ describe('helpers/uppercase', () => {
     it('should return true for bold italic uppercase', () => {
       expect(matchIsTextIsUppercase('𝑨𝑩𝑪𝑫𝑬𝑭')).toBeTrue()
     })
+
+    it('should return true for letters like ÀÈÙÇ', () => {
+      expect(matchIsTextIsUppercase('ÀÈÙÇ')).toBeTrue()
+    })
   })
 
   describe('removeUppercaseFromText', () => {
@@ -106,6 +114,10 @@ describe('helpers/uppercase', () => {
     it('should return a text with good format (bold italic) but in lowercase', () => {
       expect(removeUppercaseFromText('𝑨𝑩𝑪𝑫𝑬𝑭')).toBe('𝒂𝒃𝒄𝒅𝒆𝒇')
     })
+
+    it('should uncapitalize letters like "ÀÈÙÇ"..', () => {
+      expect(removeUppercaseFromText('ÀÈÙÇ')).toBe('àèùç')
+    })
   })
 
   describe('formatUppercase', () => {
@@ -131,6 +143,10 @@ describe('helpers/uppercase', () => {
       expect(formatUppercase('𝑾𝒉𝒂𝒕 𝒊𝒔 𝒚𝒐𝒖𝒓 𝒏𝒂𝒎𝒆 _𝒑𝒂𝒅𝒂𝒘𝒂𝒏_ ?')).toBe(
         '𝑾𝑯𝑨𝑻 𝑰𝑺 𝒀𝑶𝑼𝑹 𝑵𝑨𝑴𝑬 _𝑷𝑨𝑫𝑨𝑾𝑨𝑵_ ?'
       )
+    })
+
+    it('should capitalize letters like "àèùç.."', () => {
+      expect(formatUppercase('àèùç')).toBe('ÀÈÙÇ')
     })
   })
 })
