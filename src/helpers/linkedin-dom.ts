@@ -9,6 +9,14 @@ export function getModalContent(): Element | null {
   return document.querySelector(POPUP.textEditorScroller)
 }
 
+export function getHeader(): HTMLDivElement | null {
+  return document.querySelector(POPUP.textEditorHeader)
+}
+
+export function getFooter(): HTMLDivElement | null {
+  return document.querySelector(POPUP.textEditorFooter)
+}
+
 export function getTextEditorElement(): Element | null {
   return document.querySelector(POPUP.textEditor)
 }
