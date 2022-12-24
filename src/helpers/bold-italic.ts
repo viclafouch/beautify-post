@@ -1,5 +1,4 @@
 import { unicodes } from '@constants/unicode'
-
 import { splitTextInArray } from './array'
 import { formatBoldLetterToNormal, matchIsUnicodeBold } from './bold'
 import { compose } from './compose'

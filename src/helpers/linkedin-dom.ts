@@ -1,5 +1,4 @@
 import { POPUP } from '@constants/dom'
-
 import { getHTMLfromSelection } from './selection'
 
 export function getContainerElement(): Element | null {

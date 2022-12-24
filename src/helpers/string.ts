@@ -1,5 +1,4 @@
 import { FormatType } from '@constants/format-type'
-
 import { splitTextInArray } from './array'
 import {
   formatBold,

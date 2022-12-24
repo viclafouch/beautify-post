@@ -20,8 +20,15 @@ const classNames = {
 
 const Tooltip = (props: TooltipProps): React.ReactElement => {
   const { selection, onFormat, clearTooltip } = props
+  const [isMounted, setIsMounted] = React.useState<boolean>(false)
+
+  React.useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   const ref = useDetectClickOutside({
-    onTriggered: clearTooltip
+    onTriggered: clearTooltip,
+    disableClick: !isMounted
   })
 
   return (

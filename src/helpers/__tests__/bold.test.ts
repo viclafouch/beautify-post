@@ -8,7 +8,6 @@ import {
   matchIsUnicodeUpperBold,
   removeBoldFromText
 } from '@helpers/bold'
-
 import { range } from './utils'
 
 describe('helpers/bold', () => {

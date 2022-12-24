@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react'
-import ReactDOM from 'react-dom'
+import ReactDOM from 'react-dom/client'
 import { FormatType } from '@constants/format-type'
 import { BUTTON_HEIGHT, SPACING_ABOVE_SELECTION } from '@constants/style'
 import { css } from '@emotion/css'
@@ -10,7 +10,6 @@ import {
 } from '@helpers/keyboard'
 import { getModalContent } from '@helpers/linkedin-dom'
 import { formatSelectionByType } from '@helpers/selection'
-
 import Tooltip from './Tooltip/tooltip'
 
 type InitialProps = {
@@ -29,47 +28,45 @@ const tooltipClassName = css`
     6px 15px 34px -6px rgb(33 48 73 / 29%);
 `
 
+function initContainerStyles(
+  selection: Selection,
+  container: HTMLDivElement
+): void {
+  const range = selection.getRangeAt(0)
+  const clientRectOfRange = range.getBoundingClientRect()
+  const modalContent = getModalContent() as Element
+  const minTop = modalContent.getBoundingClientRect().top
+  let top = clientRectOfRange.top < minTop ? minTop : clientRectOfRange.top
+  top = top - BUTTON_HEIGHT - SPACING_ABOVE_SELECTION
+  container.setAttribute('class', tooltipClassName)
+  // eslint-disable-next-line no-param-reassign
+  container.style.top = `${top}px`
+  // eslint-disable-next-line no-param-reassign
+  container.style.left = `${clientRectOfRange.left}px`
+}
+
+let currentRoot: null | ReactDOM.Root = null
 let currentContainer: null | HTMLDivElement = null
 let currentSelection: null | Selection = null
 
-function handleResize(): void {
-  if (currentSelection && currentContainer) {
-    const range = currentSelection.getRangeAt(0)
-    const clientRectOfRange = range.getBoundingClientRect()
-    const modalContent = getModalContent() as Element
-    const minTop = modalContent.getBoundingClientRect().top
-    let top = clientRectOfRange.top < minTop ? minTop : clientRectOfRange.top
-    top = top - BUTTON_HEIGHT - SPACING_ABOVE_SELECTION
-    currentContainer.setAttribute('class', tooltipClassName)
-    currentContainer.style.top = `${top}px`
-    currentContainer.style.left = `${clientRectOfRange.left}px`
-  }
-}
-
 function handleKeyDown(event: KeyboardEvent): void {
-  if (!event.metaKey && !event.ctrlKey) {
-    clearCurrentAppContainer()
-  }
   if (matchIsKeyboardEventBold(event) && currentSelection) {
     event.stopPropagation()
     formatSelectionByType(currentSelection, FormatType.bold)
-    clearCurrentAppContainer()
   }
   if (matchIsKeyboardEventItalic(event) && currentSelection) {
     event.stopPropagation()
     formatSelectionByType(currentSelection, FormatType.italic)
-    clearCurrentAppContainer()
   }
+  clearCurrentAppContainer()
 }
 
 export function clearCurrentAppContainer(): void {
-  if (currentContainer) {
-    ReactDOM.unmountComponentAtNode(currentContainer)
-    currentContainer.remove()
-    currentContainer = null
-    window.removeEventListener('keydown', handleKeyDown, false)
-    window.removeEventListener('resize', handleResize, false)
-  }
+  currentRoot?.unmount()
+  currentContainer?.remove()
+  currentRoot = null
+  currentContainer = null
+  window.removeEventListener('keydown', handleKeyDown, false)
   currentSelection = null
 }
 
@@ -79,25 +76,22 @@ export function buildAppOnContainer(
 ): void {
   const { selection, ...props } = initialProps
 
-  if (currentContainer) {
-    clearCurrentAppContainer()
-  }
+  clearCurrentAppContainer()
 
-  currentSelection = selection
   currentContainer = container
+  currentSelection = selection
+  currentRoot = ReactDOM.createRoot(currentContainer)
 
-  handleResize()
+  initContainerStyles(selection, currentContainer)
 
   window.addEventListener('keydown', handleKeyDown, false)
-  window.addEventListener('resize', handleResize, false)
 
-  ReactDOM.render(
+  currentRoot.render(
     <Tooltip
       selection={selection}
       clearTooltip={clearCurrentAppContainer}
       onFormat={clearCurrentAppContainer}
       {...props}
-    />,
-    container
+    />
   )
 }

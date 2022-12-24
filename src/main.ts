@@ -1,6 +1,5 @@
 import { getContainerElement, matchIsPopupOpened } from '@helpers/linkedin-dom'
 import { SubscriptionSelection } from '@helpers/selection'
-
 import { subscribeSelectionChange } from './create-tooltip'
 
 function createObserver(): void {

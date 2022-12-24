@@ -1,10 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-import type { InitialOptionsTsJest } from 'ts-jest/dist/types'
+import { JestConfigWithTsJest, pathsToModuleNameMapper } from 'ts-jest'
+import { compilerOptions } from './tsconfig.json'
 
-const { pathsToModuleNameMapper } = require('ts-jest')
-const { compilerOptions } = require('./tsconfig.json')
-
-const config: InitialOptionsTsJest = {
+const config: JestConfigWithTsJest = {
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     prefix: '<rootDir>/src/'
   }),
@@ -16,10 +13,15 @@ const config: InitialOptionsTsJest = {
   preset: 'ts-jest/presets/default-esm',
   verbose: true,
   setupFiles: ['dotenv/config'],
-  globals: {
-    'ts-jest': {
-      useESM: true
-    }
+  transform: {
+    // '^.+\\.[tj]sx?$' to process js/ts with `ts-jest`
+    // '^.+\\.m?[tj]sx?$' to process js/ts/mjs/mts with `ts-jest`
+    '^.+\\.tsx?$': [
+      'ts-jest',
+      {
+        useESM: true
+      }
+    ]
   }
 }
 

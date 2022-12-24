@@ -5,7 +5,6 @@ import { matchIsTextIsBoldItalic } from '@helpers/bold-italic'
 import { getSiblingsBetweenElements } from '@helpers/dom'
 import { matchIsTextIsItalic, removeItalicFromText } from '@helpers/italic'
 import { formatTextByType } from '@helpers/string'
-
 import { matchIsKeyboardEventSelectAll } from './keyboard'
 import { matchIsTextIsUppercase, removeUppercaseFromText } from './uppercase'
 
